@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>225</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="StudentBook.qrc">
+    <normaloff>:/images/graduated.png</normaloff>:/images/graduated.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/images/about.png);</string>
+  </property>
+ </widget>
+ <resources>
+  <include location="StudentBook.qrc"/>
+ </resources>
+ <connections/>
+</ui>

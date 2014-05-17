@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/splash.png</file>
+        <file>images/graduated.png</file>
+        <file>images/database-add-icon.png</file>
+        <file>images/database-remove-icon.png</file>
+        <file>images/database-search-icon.png</file>
+        <file>images/about.png</file>
+    </qresource>
+</RCC>
