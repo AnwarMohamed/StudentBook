@@ -8,6 +8,8 @@
 #include <QTableWidget>
 #include <QActionGroup>
 #include <QSignalMapper>
+#include <QToolBar>
+#include <QToolButton>
 #include "aboutdialog.h"
 
 namespace Ui {
@@ -35,10 +37,12 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    void createStatusBar();
+    void setupStatusBar();
+    void setupToolbar();
 
     bool dataSaved;
     QTableView* table;
+    QToolBar* toolbar;
     QActionGroup* orderGroup, *sortGroup;
     QSignalMapper* orderSignalMapper, *sortSignalMapper;
 

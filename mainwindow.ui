@@ -18,101 +18,13 @@
     <normaloff>:/images/graduated.png</normaloff>:/images/graduated.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QCommandLinkButton" name="cmdAdd">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Add New</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="StudentBook.qrc">
-      <normaloff>:/images/database-add-icon.png</normaloff>:/images/database-add-icon.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>25</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QCommandLinkButton" name="cmdDelete">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>10</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Delete</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="StudentBook.qrc">
-      <normaloff>:/images/database-remove-icon.png</normaloff>:/images/database-remove-icon.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>25</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QCommandLinkButton" name="cmdSearch">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>10</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Search</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="StudentBook.qrc">
-      <normaloff>:/images/database-search-icon.png</normaloff>:/images/database-search-icon.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>25</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="textSearch">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>20</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>10</y>
       <width>721</width>
-      <height>381</height>
+      <height>421</height>
      </rect>
     </property>
    </widget>
@@ -123,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>741</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -173,6 +85,29 @@
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>Records Toolbox</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::NoToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionAdd_New">
    <property name="text">
     <string>Add New</string>

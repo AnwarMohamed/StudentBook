@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
     move(frect.topLeft());
 
-    createStatusBar();
+    setupStatusBar();
+    setupToolbar();
     initVariables();
 
     connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
@@ -79,7 +80,6 @@ void MainWindow::resizeEvent(QResizeEvent * event)
                 geometry().width() - 20,
                 geometry().height() - 110
                 );
-
 }
 
 void MainWindow::aboutDialog()
@@ -117,7 +117,33 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-void MainWindow::createStatusBar()
+void MainWindow::setupToolbar()
+{
+    toolbar = ui->toolBar;
+    toolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    QToolButton* button = new QToolButton;
+    button->setIcon(QIcon(":/images/database-add-icon.png"));
+    button->setToolTip("Add Record");
+    button->setText(button->toolTip());
+    toolbar->addWidget(button);
+
+    button = new QToolButton;
+    button->setIcon(QIcon(":/images/database-remove-icon.png"));
+    button->setToolTip("Remove Record");
+    button->setText(button->toolTip());
+    toolbar->addWidget(button);
+
+    toolbar->addSeparator();
+
+    button = new QToolButton;
+    button->setIcon(QIcon(":/images/database-search-icon.png"));
+    button->setToolTip("Search Record");
+    button->setText(button->toolTip());
+    toolbar->addWidget(button);
+}
+
+void MainWindow::setupStatusBar()
 {
     QLabel* statusLabel = new QLabel(" Welcome to Student Book Pro ");
     statusLabel->setAlignment(Qt::AlignLeft);
