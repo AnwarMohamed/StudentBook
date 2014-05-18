@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDesktopWidget>
+#include <QLineEdit>
+#include <QRadioButton>
 
 using namespace std;
 
@@ -31,7 +33,6 @@ void MainWindow::setupTableRecords()
     table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     tableModel = new StudentModel();
-
     table->setModel(tableModel);
     //table->setSpan(0, 1, 1, 2);
     //table->resizeColumnsToContents();
@@ -139,21 +140,41 @@ void MainWindow::setupToolbar()
     button->setIcon(QIcon(":/images/database-add-icon.png"));
     button->setToolTip("Add Record");
     button->setText(button->toolTip());
+    button->setStatusTip(button->toolTip());
     toolbar->addWidget(button);
 
     button = new QToolButton;
     button->setIcon(QIcon(":/images/database-remove-icon.png"));
     button->setToolTip("Remove Record");
     button->setText(button->toolTip());
+    button->setStatusTip(button->toolTip());
     toolbar->addWidget(button);
 
     toolbar->addSeparator();
+
+    QLineEdit* editline = new QLineEdit;
+    editline->setStatusTip("Search Record");
+    //editline->setClearButtonEnabled(true);
+    toolbar->addWidget(editline);
+
+    QRadioButton* radiobutton = new QRadioButton;
+    radiobutton->setText("By ID");
+    radiobutton->setStatusTip("Search By ID");
+    radiobutton->setChecked(true);
+    toolbar->addWidget(radiobutton);
+
+    radiobutton = new QRadioButton;
+    radiobutton->setText("By Name");
+    radiobutton->setStatusTip("Search By Name");
+    toolbar->addWidget(radiobutton);
 
     button = new QToolButton;
     button->setIcon(QIcon(":/images/database-search-icon.png"));
     button->setToolTip("Search Record");
     button->setText(button->toolTip());
+    button->setStatusTip(button->toolTip());
     toolbar->addWidget(button);
+
 }
 
 void MainWindow::setupStatusbar()

@@ -24,7 +24,8 @@ HEADERS  += \
     aboutdialog.h \
     studenttree.h \
     studentmodel.h \
-    linkedlist.h
+    linkedlist.h \
+    structs.h
 
 FORMS    += \
     mainwindow.ui \

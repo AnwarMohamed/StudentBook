@@ -73,7 +73,8 @@
      <addaction name="actionPostOrder"/>
     </widget>
     <addaction name="actionAdd_New"/>
-    <addaction name="actionSearch"/>
+    <addaction name="actionEdit"/>
+    <addaction name="actionDelete"/>
     <addaction name="menuSort"/>
     <addaction name="menuView"/>
    </widget>
@@ -189,6 +190,16 @@
    </property>
    <property name="text">
     <string>PostOrder</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionEdit">
+   <property name="text">
+    <string>Edit</string>
    </property>
   </action>
  </widget>

@@ -20,12 +20,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
-#define VIEW_ORDER_PRE  1
-#define VIEW_ORDER_IN   2
-#define VIEW_ORDER_POST 3
-#define SORT_BY_ID      1
-#define SORT_BY_NAME    2
 
 public:
     explicit MainWindow(QWidget *parent = 0);

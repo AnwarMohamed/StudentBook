@@ -1,18 +1,7 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include "studenttree.h"
-
-struct LINKEDLIST_NODE
-{
-    TREE_NODE* data;
-    struct LINKEDLIST_NODE* next, *prev;
-};
-
-struct LINKEDLIST
-{
-    LINKEDLIST_NODE* head, *tail;
-};
+#include "structs.h"
 
 class LinkedList
 {
@@ -21,6 +10,14 @@ class LinkedList
 
     LINKEDLIST_NODE* tempNode;
     unsigned int tempInt;
+
+    void    InitIterator();
+    struct
+    {
+        unsigned int index;
+        LINKEDLIST_NODE* node;
+    } iterator;
+
 public:
     LinkedList();
     ~LinkedList();
@@ -29,11 +26,22 @@ public:
     void    InsertLast(TREE_NODE* node);
     void    RemoveFirst();
     void    RemoveLast();
+    void    RemoveIndex(int index);
     void    Free();
     bool    Empty();
     unsigned int Size();
     TREE_NODE* First();
     TREE_NODE* Last();
+
+
+    TREE_NODE*  IteratorReset();
+    unsigned int IteratorCurrentIndex();
+    TREE_NODE*  IteratorCurrent();
+    TREE_NODE*  IteratorInc();
+    TREE_NODE*  IteratorDec();
+    bool        IteratorBegin();
+    bool        IteratorEnd();
+    TREE_NODE*  IteratorGoTo(unsigned int index);
 };
 
 #endif // LINKEDLIST_H

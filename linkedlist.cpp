@@ -21,6 +21,8 @@ void LinkedList::InsertFirst(TREE_NODE* treeNode)
 
     if (!list->tail)
         list->tail = tempNode;
+
+    IteratorReset();
 }
 
 void LinkedList::InsertLast(TREE_NODE* treeNode)
@@ -36,6 +38,8 @@ void LinkedList::InsertLast(TREE_NODE* treeNode)
 
     if (!list->head)
         list->head = tempNode;
+
+    IteratorReset();
 }
 
 void LinkedList::RemoveFirst()
@@ -53,6 +57,8 @@ void LinkedList::RemoveFirst()
 
     if (!list->head)
         list->tail = 0;
+
+    IteratorReset();
 }
 
 void LinkedList::RemoveLast()
@@ -70,19 +76,15 @@ void LinkedList::RemoveLast()
 
     if (!list->tail)
         list->head = 0;
+
+    IteratorReset();
 }
 
 unsigned int LinkedList::Size()
 {
-    tempInt = 0;
-    tempNode = list->head;
-    while(tempNode)
-    {
-        tempInt++;
-        tempNode = tempNode->next;
-    }
-
-    return tempInt;
+    IteratorReset();
+    while(!IteratorEnd() && IteratorInc());
+    return IteratorCurrentIndex() + 1;
 }
 
 TREE_NODE* LinkedList::First()
@@ -112,6 +114,87 @@ void LinkedList::Free()
 {
     while(!Empty())
         RemoveLast();
+}
+
+TREE_NODE* LinkedList::IteratorGoTo(unsigned int index)
+{
+    if (index == IteratorCurrentIndex())
+        return IteratorCurrent();
+    else if (index < IteratorCurrentIndex())
+    {
+        while(!IteratorBegin() && IteratorDec() && index != IteratorCurrentIndex());
+        return (IteratorCurrent() &&
+                index == IteratorCurrentIndex())?
+                    IteratorCurrent():0;
+    }
+    else
+    {
+        while(!IteratorEnd() && IteratorInc() && index != IteratorCurrentIndex());
+        return (IteratorCurrent() &&
+                index == IteratorCurrentIndex())?
+                    IteratorCurrent():0;
+    }
+}
+
+void LinkedList::InitIterator()
+{
+    iterator.index = 0;
+    iterator.node = list->head;
+}
+
+TREE_NODE* LinkedList::IteratorReset()
+{
+    iterator.index = 0;
+    iterator.node = list->head;
+    return IteratorCurrent();
+}
+
+unsigned int LinkedList::IteratorCurrentIndex()
+{
+    return iterator.index;
+}
+
+TREE_NODE* LinkedList::IteratorCurrent()
+{
+    return iterator.node? iterator.node->data:0;
+}
+
+TREE_NODE* LinkedList::IteratorInc()
+{
+    if (iterator.node->next)
+    {
+        iterator.index++;
+        iterator.node = iterator.node->next;
+        if (IteratorEnd())
+            iterator.index--;
+        return IteratorCurrent();
+    }
+
+    return 0;
+}
+
+TREE_NODE* LinkedList::IteratorDec()
+{
+    if (iterator.node->prev)
+    {
+        iterator.index--;
+        iterator.node = iterator.node->prev;
+        if (IteratorBegin())
+            iterator.index = 0;
+        return IteratorCurrent();
+    }
+
+    return 0;
+}
+
+bool LinkedList::IteratorEnd()
+{
+    return IteratorCurrent() == (list->tail?list->tail->data:0);
+}
+
+bool LinkedList::IteratorBegin()
+{
+    return IteratorCurrent() == (list->head?list->head->data:0);
 }
 
 LinkedList::~LinkedList()

@@ -15,6 +15,7 @@ class StudentModel: public QAbstractTableModel
 
 public:
     StudentModel();
+    ~StudentModel();
 
     enum {ID=0,FULLNAME};
 
