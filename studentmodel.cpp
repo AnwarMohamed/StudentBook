@@ -3,18 +3,23 @@
 
 StudentModel::StudentModel(): QAbstractTableModel()
 {
-    dataTree = new StudentTree;
+    dataTree = new StudentTree();
 
     for (int i=0; i<10; i++)
         dataTree->Insert(i, "Anwar");
 
-    //for (int i=50; i<100; i++)
-    //    dataTree->Insert(i, "Anwar");
+    for (int i=50; i<100; i++)
+        dataTree->Insert(i, "Anwar");
 
-    //for (int i=10; i<40; i++)
-    //    dataTree->Insert(i, "Anwar");
+    for (int i=10; i<40; i++)
+        dataTree->Insert(i, "Anwar");
 
     dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
+}
+
+void StudentModel::SetMode(int mode)
+{
+    dataTree->SetMode(mode);
 }
 
 int StudentModel::rowCount(const QModelIndex& parent) const

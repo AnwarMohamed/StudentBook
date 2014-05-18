@@ -6,6 +6,8 @@ LinkedList::LinkedList()
     list = (LINKEDLIST*)malloc(sizeof(LINKEDLIST));
     list->head = 0;
     list->tail = 0;
+
+    InitIterator();
 }
 
 void LinkedList::InsertFirst(TREE_NODE* treeNode)
@@ -82,9 +84,10 @@ void LinkedList::RemoveLast()
 
 unsigned int LinkedList::Size()
 {
-    IteratorReset();
+    //IteratorReset();
     while(!IteratorEnd() && IteratorInc());
     return IteratorCurrentIndex() + 1;
+    IteratorReset();
 }
 
 TREE_NODE* LinkedList::First()
@@ -114,6 +117,8 @@ void LinkedList::Free()
 {
     while(!Empty())
         RemoveLast();
+
+    IteratorReset();
 }
 
 TREE_NODE* LinkedList::IteratorGoTo(unsigned int index)
@@ -165,8 +170,6 @@ TREE_NODE* LinkedList::IteratorInc()
     {
         iterator.index++;
         iterator.node = iterator.node->next;
-        if (IteratorEnd())
-            iterator.index--;
         return IteratorCurrent();
     }
 
@@ -179,8 +182,6 @@ TREE_NODE* LinkedList::IteratorDec()
     {
         iterator.index--;
         iterator.node = iterator.node->prev;
-        if (IteratorBegin())
-            iterator.index = 0;
         return IteratorCurrent();
     }
 

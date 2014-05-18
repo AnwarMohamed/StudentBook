@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    setupEnvironment();
     ui->setupUi(this);
 
     QRect frect = frameGeometry();
@@ -20,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setupStatusbar();
     setupToolbar();
     setupTableRecords();
-    setupEnvironment();
 
     connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
 
@@ -33,6 +33,7 @@ void MainWindow::setupTableRecords()
     table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     tableModel = new StudentModel();
+    //tableModel->SetMode(sortMode | orderMode);
     table->setModel(tableModel);
     //table->setSpan(0, 1, 1, 2);
     //table->resizeColumnsToContents();
@@ -74,18 +75,26 @@ void MainWindow::setupMenubar()
 
 void MainWindow::setupEnvironment()
 {
+    tableModel = 0;
     dataSaved = true;
+    sortMode = SORT_BY_ID;
+    orderMode = VIEW_ORDER_PRE;
 }
-
 
 void MainWindow::changeViewSort(int sortType)
 {
+    sortMode = sortType;
 
+    if (tableModel)
+        tableModel->SetMode(sortMode | orderMode);
 }
 
 void MainWindow::changeViewOrder(int orderType)
 {
-    //printf("triggered");
+    orderMode = orderType;
+
+    if (tableModel)
+        tableModel->SetMode(sortMode | orderMode);
 }
 
 void MainWindow::resizeEvent(QResizeEvent * event)
@@ -154,7 +163,7 @@ void MainWindow::setupToolbar()
 
     QLineEdit* editline = new QLineEdit;
     editline->setStatusTip("Search Record");
-    //editline->setClearButtonEnabled(true);
+    editline->setClearButtonEnabled(true);
     toolbar->addWidget(editline);
 
     QRadioButton* radiobutton = new QRadioButton;

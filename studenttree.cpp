@@ -12,7 +12,7 @@ StudentTree::StudentTree()
 
     treeSize = 0;
 
-    viewList = new LinkedList;
+    viewList = new LinkedList();
 }
 
 int StudentTree::Size()

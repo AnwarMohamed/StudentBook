@@ -31,6 +31,9 @@ private slots:
     void changeViewSort(int sortType);
 
 private:
+    int orderMode;
+    int sortMode;
+
     Ui::MainWindow *ui;
     void setupStatusbar();
     void setupToolbar();
