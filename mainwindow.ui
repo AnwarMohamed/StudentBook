@@ -27,6 +27,9 @@
       <height>421</height>
      </rect>
     </property>
+    <property name="gridStyle">
+     <enum>Qt::DashLine</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -52,7 +55,7 @@
    </widget>
    <widget class="QMenu" name="menuStudents">
     <property name="title">
-     <string>Students</string>
+     <string>Records</string>
     </property>
     <widget class="QMenu" name="menuSort">
      <property name="title">
@@ -76,7 +79,7 @@
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
-     <string>About</string>
+     <string>Help</string>
     </property>
     <addaction name="actionCreators"/>
    </widget>
@@ -145,7 +148,7 @@
   </action>
   <action name="actionCreators">
    <property name="text">
-    <string>Creators</string>
+    <string>About</string>
    </property>
   </action>
   <action name="actionBy_ID">

@@ -16,13 +16,15 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     aboutdialog.cpp \
     studenttree.cpp \
-    studentmodel.cpp
+    studentmodel.cpp \
+    linkedlist.cpp
 
 HEADERS  += \
     mainwindow.h \
     aboutdialog.h \
     studenttree.h \
-    studentmodel.h
+    studentmodel.h \
+    linkedlist.h
 
 FORMS    += \
     mainwindow.ui \

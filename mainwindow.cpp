@@ -14,22 +14,31 @@ MainWindow::MainWindow(QWidget *parent) :
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
     move(frect.topLeft());
 
-    setupStatusBar();
+    setupMenubar();
+    setupStatusbar();
     setupToolbar();
-    initVariables();
+    setupTableRecords();
+    setupEnvironment();
 
     connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
 
     resizeEvent(0);
 }
 
-void MainWindow::initVariables()
+void MainWindow::setupTableRecords()
 {
-    dataSaved = true;
     table = ui->tableView;
-
     table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
+    tableModel = new StudentModel();
+
+    table->setModel(tableModel);
+    //table->setSpan(0, 1, 1, 2);
+    //table->resizeColumnsToContents();
+}
+
+void MainWindow::setupMenubar()
+{
     orderGroup = new QActionGroup(this);
     ui->actionInOrder->setActionGroup(orderGroup);
     ui->actionPreOrder->setActionGroup(orderGroup);
@@ -47,7 +56,6 @@ void MainWindow::initVariables()
     connect (orderSignalMapper, SIGNAL(mapped(int)), this, SLOT(changeViewOrder(int))) ;
     ui->actionPreOrder->setChecked(true);
 
-
     sortGroup = new QActionGroup(this);
     ui->actionBy_ID->setActionGroup(sortGroup);
     ui->actionBy_Name->setActionGroup(sortGroup);
@@ -61,6 +69,11 @@ void MainWindow::initVariables()
 
     connect (sortSignalMapper, SIGNAL(mapped(int)), this, SLOT(changeViewSort(int))) ;
     ui->actionBy_ID->setChecked(true);
+}
+
+void MainWindow::setupEnvironment()
+{
+    dataSaved = true;
 }
 
 
@@ -120,7 +133,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::setupToolbar()
 {
     toolbar = ui->toolBar;
-    toolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+    toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     QToolButton* button = new QToolButton;
     button->setIcon(QIcon(":/images/database-add-icon.png"));
@@ -143,7 +156,7 @@ void MainWindow::setupToolbar()
     toolbar->addWidget(button);
 }
 
-void MainWindow::setupStatusBar()
+void MainWindow::setupStatusbar()
 {
     QLabel* statusLabel = new QLabel(" Welcome to Student Book Pro ");
     statusLabel->setAlignment(Qt::AlignLeft);

@@ -11,6 +11,7 @@
 #include <QToolBar>
 #include <QToolButton>
 #include "aboutdialog.h"
+#include "studentmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,16 +38,20 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    void setupStatusBar();
+    void setupStatusbar();
     void setupToolbar();
+    void setupTableRecords();
+    void setupEnvironment();
+    void setupMenubar();
 
     bool dataSaved;
     QTableView* table;
+    StudentModel* tableModel;
     QToolBar* toolbar;
     QActionGroup* orderGroup, *sortGroup;
     QSignalMapper* orderSignalMapper, *sortSignalMapper;
 
-    void initVariables();
+
     bool checkSaveMessage();
 
 
