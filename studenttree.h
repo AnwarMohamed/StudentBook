@@ -40,8 +40,6 @@ public:
     TREE_NODE*  Get(unsigned int index);
     void        Insert(unsigned int id, char* fullname);
     void        SetMode(int mode);
-
-    void    Print(TREE_NODE* root);
 };
 
 #endif // STUDENTTREE_H

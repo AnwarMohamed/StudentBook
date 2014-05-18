@@ -79,17 +79,6 @@ void StudentTree::DeleteNode(TREE_NODE** node)
     treeSize--;
 }
 
-void StudentTree::Print(TREE_NODE* root)
-{
-    if (!root) return;
-
-
-    Print(root->left);
-    printf("%d ", root->data->id);
-    Print(root->right);
-
-}
-
 void StudentTree::InsertSortedId(TREE_NODE** root, TREE_NODE* node)
 {
     if (!*root)
