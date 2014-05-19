@@ -84,10 +84,9 @@ void LinkedList::RemoveLast()
 
 unsigned int LinkedList::Size()
 {
-    //IteratorReset();
     while(!IteratorEnd() && IteratorInc());
-    return IteratorCurrentIndex() + ((!IteratorReset() && !IteratorCurrentIndex())?1:0);
-    IteratorReset();
+    return IteratorCurrentIndex() +
+            ((!IteratorReset() && !IteratorCurrentIndex())?0:1);
 }
 
 TREE_NODE* LinkedList::First()

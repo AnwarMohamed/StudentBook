@@ -112,10 +112,15 @@ void MainWindow::setupMenubar()
 void MainWindow::deleteMenu()
 {
     indexList = table->selectionModel()->selectedIndexes();
-    if (!indexList.isEmpty())
         tableModel->removeRow(indexList.value(0).row());
+        if (!indexList.isEmpty())
 
     checkEnability(true);
+}
+
+void MainWindow::addMenu()
+{
+
 }
 
 void MainWindow::editMenu()
@@ -218,17 +223,20 @@ void MainWindow::setupToolbar()
     QLineEdit* editline = new QLineEdit;
     editline->setStatusTip("Search Record");
     editline->setClearButtonEnabled(true);
+    editline->setStyleSheet("padding-left:5;");
     toolbar->addWidget(editline);
 
     QRadioButton* radiobutton = new QRadioButton;
     radiobutton->setText("By ID");
     radiobutton->setStatusTip("Search By ID");
     radiobutton->setChecked(true);
+    radiobutton->setStyleSheet("padding-left:5;");
     toolbar->addWidget(radiobutton);
 
     radiobutton = new QRadioButton;
     radiobutton->setText("By Name");
     radiobutton->setStatusTip("Search By Name");
+    radiobutton->setStyleSheet("padding-left:5; padding-right:5;");
     toolbar->addWidget(radiobutton);
 
     button = new QToolButton;

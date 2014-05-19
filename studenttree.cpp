@@ -24,10 +24,10 @@ void StudentTree::Delete(unsigned int index)
 
 }
 
-TREE_NODE** Search(TREE* tree, TREE_NODE* node)
-{
+//TREE_NODE** Search(TREE* tree, TREE_NODE* node)
+//{
 
-}
+//}
 
 unsigned int StudentTree::Size()
 {

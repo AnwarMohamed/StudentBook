@@ -31,6 +31,7 @@ private slots:
     void changeViewSort(int sortType);
     void editMenu();
     void deleteMenu();
+    void addMenu();
 
 private:
     int orderMode;
