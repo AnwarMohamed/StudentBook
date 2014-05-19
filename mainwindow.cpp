@@ -33,10 +33,42 @@ void MainWindow::setupTableRecords()
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     tableModel = new StudentModel();
+
     //tableModel->SetMode(sortMode | orderMode);
     table->setModel(tableModel);
     //table->setSpan(0, 1, 1, 2);
     //table->resizeColumnsToContents();
+}
+
+void MainWindow::checkEnability(bool active)
+{
+    if (!active)
+    {
+        ui->toolBar->setEnabled(false);
+        ui->menuRecords->setEnabled(false);
+    }
+    else if (tableModel->Size() > 0)
+    {
+        ui->toolBar->setEnabled(true);
+        ui->menuRecords->setEnabled(true);
+
+        for (int i=1; i<ui->toolBar->actions().size(); i++)
+            ui->toolBar->actions()[i]->setEnabled(true);
+
+        for (int i=1; i<ui->menuRecords->actions().size(); i++)
+            ui->menuRecords->actions()[i]->setEnabled(true);
+    }
+    else
+    {
+        ui->toolBar->setEnabled(true);
+        ui->menuRecords->setEnabled(true);
+
+        for (int i=1; i<ui->toolBar->actions().size(); i++)
+            ui->toolBar->actions()[i]->setEnabled(false);
+
+        for (int i=1; i<ui->menuRecords->actions().size(); i++)
+            ui->menuRecords->actions()[i]->setEnabled(false);
+    }
 }
 
 void MainWindow::setupMenubar()
@@ -72,7 +104,6 @@ void MainWindow::setupMenubar()
     connect (sortSignalMapper, SIGNAL(mapped(int)), this, SLOT(changeViewSort(int))) ;
     ui->actionBy_ID->setChecked(true);
 
-
     connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
     connect(ui->actionEdit ,SIGNAL(triggered(bool)), this, SLOT(editMenu()));
     connect(ui->actionDelete ,SIGNAL(triggered(bool)), this, SLOT(deleteMenu()));
@@ -83,6 +114,8 @@ void MainWindow::deleteMenu()
     indexList = table->selectionModel()->selectedIndexes();
     if (!indexList.isEmpty())
         tableModel->removeRow(indexList.value(0).row());
+
+    checkEnability(true);
 }
 
 void MainWindow::editMenu()

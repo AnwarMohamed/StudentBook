@@ -58,7 +58,7 @@
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuStudents">
+   <widget class="QMenu" name="menuRecords">
     <property name="title">
      <string>Records</string>
     </property>
@@ -90,7 +90,7 @@
     <addaction name="actionCreators"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuStudents"/>
+   <addaction name="menuRecords"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

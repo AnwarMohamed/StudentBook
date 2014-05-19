@@ -8,11 +8,11 @@ StudentModel::StudentModel(): QAbstractTableModel()
     for (int i=0; i<10; i++)
         dataTree->Insert(i, "Anwar");
 
-    for (int i=50; i<100; i++)
-        dataTree->Insert(i, "Anwar");
+    //for (int i=50; i<100; i++)
+    //    dataTree->Insert(i, "Anwar");
 
-    for (int i=10; i<40; i++)
-        dataTree->Insert(i, "Anwar");
+    //for (int i=10; i<40; i++)
+    //    dataTree->Insert(i, "Anwar");
 
     dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
 }
@@ -20,6 +20,11 @@ StudentModel::StudentModel(): QAbstractTableModel()
 void StudentModel::SetMode(int mode)
 {
     dataTree->SetMode(mode);
+}
+
+unsigned int StudentModel::Size()
+{
+    return dataTree->Size();
 }
 
 int StudentModel::rowCount(const QModelIndex& parent) const
@@ -37,7 +42,7 @@ QVariant StudentModel::data(const QModelIndex& index, int role) const
     if(!index.isValid())
         return QVariant();
 
-    if(index.row() >= dataTree->Size() || index.row() < 0)
+    if((unsigned int)index.row() >= dataTree->Size() || index.row() < 0)
         return QVariant();
 
     if(role == Qt::DisplayRole || role == Qt::EditRole)
@@ -114,6 +119,7 @@ bool StudentModel::removeRow(int row, const QModelIndex & parent)
     beginRemoveRows(QModelIndex(),row,row);
     dataTree->Delete(row);
     endRemoveRows();
+    return true;
 }
 
 StudentModel::~StudentModel()

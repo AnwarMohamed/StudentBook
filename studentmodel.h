@@ -2,6 +2,7 @@
 #define STUDENTMODEL_H
 
 #include <QAbstractTableModel>
+#include <QToolBar>
 #include "studenttree.h"
 
 #define HEADER_COLUMN_0 "ID"
@@ -29,6 +30,7 @@ public:
     bool removeRow(int row, const QModelIndex & parent = QModelIndex());
 
     void SetMode(int mode);
+    unsigned int Size();
 };
 
 #endif // STUDENTMODEL_H

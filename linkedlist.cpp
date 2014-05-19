@@ -86,7 +86,7 @@ unsigned int LinkedList::Size()
 {
     //IteratorReset();
     while(!IteratorEnd() && IteratorInc());
-    return IteratorCurrentIndex() + 1;
+    return IteratorCurrentIndex() + ((!IteratorReset() && !IteratorCurrentIndex())?1:0);
     IteratorReset();
 }
 

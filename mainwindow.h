@@ -43,6 +43,7 @@ private:
     void setupTableRecords();
     void setupEnvironment();
     void setupMenubar();
+    void checkEnability(bool);
 
     bool dataSaved;
     QTableView* table;
