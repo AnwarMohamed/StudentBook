@@ -26,6 +26,7 @@ public:
 
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool removeRow(int row, const QModelIndex & parent = QModelIndex());
 
     void SetMode(int mode);
 };

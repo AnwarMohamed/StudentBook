@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setupToolbar();
     setupTableRecords();
 
-    connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
-
     resizeEvent(0);
 }
 
@@ -31,6 +29,8 @@ void MainWindow::setupTableRecords()
 {
     table = ui->tableView;
     table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     tableModel = new StudentModel();
     //tableModel->SetMode(sortMode | orderMode);
@@ -71,6 +71,25 @@ void MainWindow::setupMenubar()
 
     connect (sortSignalMapper, SIGNAL(mapped(int)), this, SLOT(changeViewSort(int))) ;
     ui->actionBy_ID->setChecked(true);
+
+
+    connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
+    connect(ui->actionEdit ,SIGNAL(triggered(bool)), this, SLOT(editMenu()));
+    connect(ui->actionDelete ,SIGNAL(triggered(bool)), this, SLOT(deleteMenu()));
+}
+
+void MainWindow::deleteMenu()
+{
+    indexList = table->selectionModel()->selectedIndexes();
+    if (!indexList.isEmpty())
+        tableModel->removeRow(indexList.value(0).row());
+}
+
+void MainWindow::editMenu()
+{
+    indexList = table->selectionModel()->selectedIndexes();
+    if (!indexList.isEmpty())
+        table->edit(indexList.value(0));
 }
 
 void MainWindow::setupEnvironment()
@@ -154,9 +173,11 @@ void MainWindow::setupToolbar()
 
     button = new QToolButton;
     button->setIcon(QIcon(":/images/database-remove-icon.png"));
-    button->setToolTip("Remove Record");
+    button->setToolTip("Delete Record");
     button->setText(button->toolTip());
     button->setStatusTip(button->toolTip());
+
+    connect(button ,SIGNAL(clicked()), this, SLOT(deleteMenu()));
     toolbar->addWidget(button);
 
     toolbar->addSeparator();

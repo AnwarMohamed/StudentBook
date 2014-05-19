@@ -3,7 +3,7 @@
 
 StudentModel::StudentModel(): QAbstractTableModel()
 {
-    dataTree = new StudentTree();
+    dataTree = new StudentTree(this);
 
     for (int i=0; i<10; i++)
         dataTree->Insert(i, "Anwar");
@@ -106,6 +106,14 @@ Qt::ItemFlags StudentModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::ItemIsEnabled;
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool StudentModel::removeRow(int row, const QModelIndex & parent)
+{
+
+    beginRemoveRows(QModelIndex(),row,row);
+    dataTree->Delete(row);
+    endRemoveRows();
 }
 
 StudentModel::~StudentModel()

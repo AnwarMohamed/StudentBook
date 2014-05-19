@@ -29,10 +29,13 @@ private slots:
     void aboutDialog();
     void changeViewOrder(int orderType);
     void changeViewSort(int sortType);
+    void editMenu();
+    void deleteMenu();
 
 private:
     int orderMode;
     int sortMode;
+    QModelIndexList indexList;
 
     Ui::MainWindow *ui;
     void setupStatusbar();

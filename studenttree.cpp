@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-StudentTree::StudentTree()
+StudentTree::StudentTree(QAbstractTableModel* model)
 {
     bstId = (TREE*)malloc(sizeof(TREE));
     bstId->root = 0;
@@ -13,9 +13,23 @@ StudentTree::StudentTree()
     treeSize = 0;
 
     viewList = new LinkedList();
+    this->model = model;
 }
 
-int StudentTree::Size()
+void StudentTree::Delete(unsigned int index)
+{
+    //TREE_NODE* node = Get(index);
+    //TREE_NODE** pNode = Search(bstId, node);
+    viewList->RemoveFirst();
+
+}
+
+TREE_NODE** Search(TREE* tree, TREE_NODE* node)
+{
+
+}
+
+unsigned int StudentTree::Size()
 {
     return viewList->Size();
 }

@@ -6,6 +6,7 @@
 
 #include "structs.h"
 #include "linkedlist.h"
+#include <QAbstractTableModel>
 
 
 #define VIEW_ORDER_PRE  1
@@ -24,6 +25,7 @@ private:
     TREE_NODE_DATA* tempData;
     unsigned int    treeSize;
     LinkedList*     viewList;
+    QAbstractTableModel* model;
 
     void        InsertSortedId(TREE_NODE** root, TREE_NODE* node);
     TREE_NODE*  NewNode(TREE_NODE_DATA* data);
@@ -33,13 +35,15 @@ private:
     void        GenerateInOrder(TREE_NODE* root);
     void        GeneratePostOrder(TREE_NODE* root);
 public:
-    StudentTree();
+    StudentTree(QAbstractTableModel* model);
     ~StudentTree();
 
-    int         Size();
+    unsigned int         Size();
     TREE_NODE*  Get(unsigned int index);
     void        Insert(unsigned int id, char* fullname);
     void        SetMode(int mode);
+    void        Delete(unsigned int index);
+    TREE_NODE** Search(TREE_NODE* node);
 };
 
 #endif // STUDENTTREE_H
