@@ -26,7 +26,7 @@ public:
     void    InsertLast(TREE_NODE* node);
     void    RemoveFirst();
     void    RemoveLast();
-    void    RemoveIndex(int index);
+    void    RemoveIndex(unsigned int index);
     void    Free();
     bool    Empty();
     unsigned int Size();

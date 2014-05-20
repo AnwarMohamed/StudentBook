@@ -13,6 +13,9 @@ class StudentModel: public QAbstractTableModel
     Q_OBJECT
 
     StudentTree* dataTree;
+    bool tempBool;
+    unsigned int tempUint;
+    char tempChar[10];
 
 public:
     StudentModel();

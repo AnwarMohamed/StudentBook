@@ -30,6 +30,7 @@ private:
     unsigned int    treeSize;
     LinkedList*     viewList;
     QAbstractTableModel* model;
+    int treeMode;
 
     void        InsertSortedId(TREE_NODE** root, TREE_NODE* node);
     TREE_NODE*  NewNode(TREE_NODE_DATA* data);
@@ -38,13 +39,15 @@ private:
     void        GeneratePreOrder(TREE_NODE* root);
     void        GenerateInOrder(TREE_NODE* root);
     void        GeneratePostOrder(TREE_NODE* root);
+
+    bool        ValidFullname(char* fullname, unsigned int* len=0);
 public:
     StudentTree(QAbstractTableModel* model);
     ~StudentTree();
 
     unsigned int Size();
     TREE_NODE*  Get(unsigned int index);
-    void        Insert(unsigned int id, char* fullname, unsigned int flags);
+    void        Insert(unsigned int id, char* fullname, unsigned int flags, bool reorder=false);
     void        SetMode(int mode);
 
     void        Delete(unsigned int index);

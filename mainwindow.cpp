@@ -33,8 +33,8 @@ void MainWindow::setupTableRecords()
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     tableModel = new StudentModel();
-
     tableModel->SetMode(sortMode | orderMode);
+
     table->setModel(tableModel);
     table->horizontalHeader()->setStretchLastSection(true);
 }

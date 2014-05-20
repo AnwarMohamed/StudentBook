@@ -1,5 +1,6 @@
 #include "studentmodel.h"
 #include <cstdlib>
+#include <cctype>
 
 StudentModel::StudentModel(): QAbstractTableModel()
 {
@@ -14,7 +15,7 @@ StudentModel::StudentModel(): QAbstractTableModel()
     //for (int i=10; i<40; i++)
     //    dataTree->Insert(i, "Anwar");
 
-    dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
+    //dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
 }
 
 void StudentModel::SetMode(int mode)
@@ -89,7 +90,14 @@ bool StudentModel::setData(const QModelIndex &index, const QVariant &value, int 
         switch(index.column())
         {
         case ID:
-            if (!dataTree->Set(row, value.toInt()))
+            if (value.toString().size() > 10)
+                return false;
+
+            tempUint = atoi(value.toString().toLocal8Bit().data());
+
+            if (strcmp(QString::number(tempUint).toLocal8Bit().data(),
+                       value.toString().toLocal8Bit().data()) != 0 ||
+                    !dataTree->Set(row, tempUint))
                 return false;
             break;
         case FULLNAME:

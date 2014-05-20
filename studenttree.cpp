@@ -15,6 +15,8 @@ StudentTree::StudentTree(QAbstractTableModel* model)
 
     viewList = new LinkedList();
     this->model = model;
+
+    treeMode = SORT_BY_ID | VIEW_ORDER_PRE;
 }
 
 bool StudentTree::Exists(unsigned int id)
@@ -51,19 +53,15 @@ bool StudentTree::Set(unsigned int index, char* fullname)
     tempNode = viewList->IteratorGoTo(index);
     if (tempNode)
     {
-        tempUint = strlen(fullname);
+        if(!ValidFullname(fullname, &tempUint))
+            return false;
+
         if (tempNode->data->flags & DATA_USER_ALLOC)
             tempNode->data->fullname = (char*)realloc(tempNode->data->fullname, tempUint + 1);
         else
             tempNode->data->fullname = (char*)malloc(tempUint + 1);
 
         strcpy(tempNode->data->fullname, fullname);
-        remove_comma(tempNode->data->fullname, 0, tempUint);
-        trim(tempNode->data->fullname);
-        f_capital(tempNode->data->fullname);
-
-        tempUint = strlen(tempNode->data->fullname);
-        tempNode->data->fullname = (char*)realloc(tempNode->data->fullname, tempUint + 1);
 
         tempNode->data->flags ^= (DATA_GLOCAL_ALLOC | DATA_NO_ALLOC);
         tempNode->data->flags |= DATA_USER_ALLOC;
@@ -72,6 +70,17 @@ bool StudentTree::Set(unsigned int index, char* fullname)
     }
 
     return false;
+}
+
+bool StudentTree::ValidFullname(char* fullname, unsigned int* len)
+{
+    tempUint = strlen(fullname);
+    remove_comma(fullname, 0, tempUint);
+    trim(fullname);
+    f_capital(fullname);
+    tempUint = strlen(fullname);
+
+    return tempUint?(len?(*len = tempUint):true):false;
 }
 
 void StudentTree::Delete(unsigned int index)
@@ -105,7 +114,7 @@ TREE_NODE * StudentTree::NewNode(TREE_NODE_DATA *data)
     return tempNode;
 }
 
-void StudentTree::Insert(unsigned int id, char* fullname, unsigned int flags)
+void StudentTree::Insert(unsigned int id, char* fullname, unsigned int flags, bool reorder)
 {
     tempData = (TREE_NODE_DATA*)malloc(sizeof(TREE_NODE_DATA));
     tempData->id = id;
@@ -118,6 +127,9 @@ void StudentTree::Insert(unsigned int id, char* fullname, unsigned int flags)
     //InsertSortedName(&bstName->root, tempNode);
 
     treeSize++;
+
+    if (reorder)
+        SetMode(treeMode);
 }
 
 TREE_NODE** StudentTree::SmallestNode(TREE_NODE** node)
@@ -196,6 +208,7 @@ void StudentTree::SetMode(int mode)
     else if (mode & VIEW_ORDER_POST)
         GeneratePostOrder(viewTree->root);
 
+    treeMode = mode;
 }
 
 void StudentTree::GeneratePreOrder(TREE_NODE* root)

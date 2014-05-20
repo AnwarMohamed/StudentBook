@@ -69,3 +69,4 @@ void f_capital(char* str)
             str[i] = tolower(str[i]);
     }
 }
+
