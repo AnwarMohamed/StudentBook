@@ -1,6 +1,7 @@
 #include "studenttree.h"
 #include <cstdlib>
 #include <cstdio>
+#include "misc.h"
 
 StudentTree::StudentTree(QAbstractTableModel* model)
 {
@@ -14,6 +15,63 @@ StudentTree::StudentTree(QAbstractTableModel* model)
 
     viewList = new LinkedList();
     this->model = model;
+}
+
+bool StudentTree::Exists(unsigned int id)
+{
+    viewList->IteratorReset();
+
+    if (viewList->IteratorCurrent() &&
+            viewList->IteratorCurrent()->data->id == id)
+        return true;
+
+    while((tempNode = viewList->IteratorInc()))
+        if (tempNode->data->id == id)
+            return true;
+    return false;
+}
+
+bool StudentTree::Set(unsigned int index, unsigned int id)
+{
+    if (Exists(id))
+        return false;
+
+    tempNode = viewList->IteratorGoTo(index);
+    if (tempNode)
+    {
+        tempNode->data->id = id;
+        return true;
+    }
+
+    return false;
+}
+
+bool StudentTree::Set(unsigned int index, char* fullname)
+{
+    tempNode = viewList->IteratorGoTo(index);
+    if (tempNode)
+    {
+        tempUint = strlen(fullname);
+        if (tempNode->data->flags & DATA_USER_ALLOC)
+            tempNode->data->fullname = (char*)realloc(tempNode->data->fullname, tempUint + 1);
+        else
+            tempNode->data->fullname = (char*)malloc(tempUint + 1);
+
+        strcpy(tempNode->data->fullname, fullname);
+        remove_comma(tempNode->data->fullname, 0, tempUint);
+        trim(tempNode->data->fullname);
+        f_capital(tempNode->data->fullname);
+
+        tempUint = strlen(tempNode->data->fullname);
+        tempNode->data->fullname = (char*)realloc(tempNode->data->fullname, tempUint + 1);
+
+        tempNode->data->flags ^= (DATA_GLOCAL_ALLOC | DATA_NO_ALLOC);
+        tempNode->data->flags |= DATA_USER_ALLOC;
+
+        return true;
+    }
+
+    return false;
 }
 
 void StudentTree::Delete(unsigned int index)
@@ -47,11 +105,12 @@ TREE_NODE * StudentTree::NewNode(TREE_NODE_DATA *data)
     return tempNode;
 }
 
-void StudentTree::Insert(unsigned int id, char* fullname)
+void StudentTree::Insert(unsigned int id, char* fullname, unsigned int flags)
 {
     tempData = (TREE_NODE_DATA*)malloc(sizeof(TREE_NODE_DATA));
     tempData->id = id;
     tempData->fullname = fullname;
+    tempData->flags = flags;
 
     tempNode = NewNode(tempData);
 

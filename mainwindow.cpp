@@ -34,10 +34,9 @@ void MainWindow::setupTableRecords()
 
     tableModel = new StudentModel();
 
-    //tableModel->SetMode(sortMode | orderMode);
+    tableModel->SetMode(sortMode | orderMode);
     table->setModel(tableModel);
-    //table->setSpan(0, 1, 1, 2);
-    //table->resizeColumnsToContents();
+    table->horizontalHeader()->setStretchLastSection(true);
 }
 
 void MainWindow::checkEnability(bool active)
@@ -107,6 +106,7 @@ void MainWindow::setupMenubar()
     connect(ui->actionCreators ,SIGNAL(triggered(bool)), this, SLOT(aboutDialog()));
     connect(ui->actionEdit ,SIGNAL(triggered(bool)), this, SLOT(editMenu()));
     connect(ui->actionDelete ,SIGNAL(triggered(bool)), this, SLOT(deleteMenu()));
+    connect(ui->actionAdd_New ,SIGNAL(triggered(bool)), this, SLOT(addMenu()));
 }
 
 void MainWindow::deleteMenu()
@@ -120,14 +120,15 @@ void MainWindow::deleteMenu()
 
 void MainWindow::addMenu()
 {
+    tableModel->insertRow(0);
+    tableModel->insertColumn(0);
+    tableModel->insertColumn(1);
 
 }
 
 void MainWindow::editMenu()
 {
-    indexList = table->selectionModel()->selectedIndexes();
-    if (!indexList.isEmpty())
-        table->edit(indexList.value(0));
+    table->edit(table->selectionModel()->currentIndex());
 }
 
 void MainWindow::setupEnvironment()
@@ -154,7 +155,7 @@ void MainWindow::changeViewOrder(int orderType)
         tableModel->SetMode(sortMode | orderMode);
 }
 
-void MainWindow::resizeEvent(QResizeEvent * event)
+void MainWindow::resizeEvent(QResizeEvent*)
 {
     ui->tableView->resize(
                 geometry().width() - 20,

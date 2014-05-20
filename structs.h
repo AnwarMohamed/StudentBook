@@ -5,6 +5,7 @@ struct TREE_NODE_DATA
 {
     unsigned int id;
     char *fullname;
+    unsigned int flags;
 };
 
 struct TREE_NODE

@@ -6,7 +6,7 @@ StudentModel::StudentModel(): QAbstractTableModel()
     dataTree = new StudentTree(this);
 
     for (int i=0; i<10; i++)
-        dataTree->Insert(i, "Anwar");
+        dataTree->Insert(i, "Anwar", 0);
 
     //for (int i=50; i<100; i++)
     //    dataTree->Insert(i, "Anwar");
@@ -27,7 +27,7 @@ unsigned int StudentModel::Size()
     return dataTree->Size();
 }
 
-int StudentModel::rowCount(const QModelIndex& parent) const
+int StudentModel::rowCount(const QModelIndex&) const
 {
     return dataTree->Size();
 }
@@ -82,27 +82,26 @@ QVariant StudentModel::headerData(int section, Qt::Orientation orientation, int 
 
 bool StudentModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    /*if (index.isValid() && role == Qt::EditRole && !(index.row() >= mydata.size() || index.row() < 0))
+    if (index.isValid() && role == Qt::EditRole && !((unsigned int)index.row() >= dataTree->Size() || index.row() < 0))
     {
         int row = index.row();
 
         switch(index.column())
         {
-        case 0:
-            mydata[row].setFirstname(value.toString());
+        case ID:
+            if (!dataTree->Set(row, value.toInt()))
+                return false;
             break;
-        case 1:
-            mydata[row].setLastname(value.toString());
-            break;
-        case 2:
-            mydata[row].setEmail(value.toString());
+        case FULLNAME:
+            if (!dataTree->Set(row, value.toString().toLocal8Bit().data()))
+                return false;
             break;
         default:
             return false;
         }
         emit dataChanged(index, index);
         return true;
-    }*/
+    }
     return false;
 }
 
@@ -113,7 +112,7 @@ Qt::ItemFlags StudentModel::flags(const QModelIndex &index) const
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool StudentModel::removeRow(int row, const QModelIndex & parent)
+bool StudentModel::removeRow(int row, const QModelIndex&)
 {
 
     beginRemoveRows(QModelIndex(),row,row);

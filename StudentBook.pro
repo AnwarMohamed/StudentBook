@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     aboutdialog.cpp \
     studenttree.cpp \
     studentmodel.cpp \
-    linkedlist.cpp
+    linkedlist.cpp \
+    misc.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -25,7 +26,8 @@ HEADERS  += \
     studenttree.h \
     studentmodel.h \
     linkedlist.h \
-    structs.h
+    structs.h \
+    misc.h
 
 FORMS    += \
     mainwindow.ui \
