@@ -38,6 +38,9 @@ public:
 
     void SetMode(int mode);
     unsigned int Size();
+
+    void Search(int id);
+    void Search(char* fullname);
 };
 
 #endif // STUDENTMODEL_H

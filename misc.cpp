@@ -13,12 +13,14 @@ void remove_comma(char* str, int i, int len)
 
 int sub_string(char* s1, char* s2) {
     int len1 = strlen(s1),
-            len2 = strlen(s2), i;
+    len2 = strlen(s2), i, j;
     if (len2 > len1) return 0;
-    for (i=0; i<len2; i++)
-        if (tolower(s1[i]) != tolower(s2[i]))
-            return 0;
-    return 1;
+
+    for (i=0; i<len1; i++)
+        for (j=0; j<len2; j++)
+            if (tolower(s1[i+j]) == tolower(s2[j]) && j+1==len2)
+                return 1;
+    return 0;
 }
 
 void trim(char *str)

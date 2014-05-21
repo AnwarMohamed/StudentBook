@@ -123,12 +123,27 @@ void MainWindow::addMenu()
     tableModel->insertRow(0);
     tableModel->insertColumn(0);
     tableModel->insertColumn(1);
-
 }
 
 void MainWindow::editMenu()
 {
     table->edit(table->selectionModel()->currentIndex());
+}
+
+void MainWindow::resetMenu(const QString & str)
+{
+    if (str.size() == 0)
+        tableModel->SetMode(sortMode | orderMode);
+    //else
+    //    searchMenu();
+}
+
+void MainWindow::searchMenu()
+{
+    if (radioName->isChecked())
+        tableModel->Search(editLine->text().toLocal8Bit().data());
+    else
+        tableModel->Search(editLine->text().toUInt());
 }
 
 void MainWindow::setupEnvironment()
@@ -221,30 +236,36 @@ void MainWindow::setupToolbar()
 
     toolbar->addSeparator();
 
-    QLineEdit* editline = new QLineEdit;
-    editline->setStatusTip("Search Record");
-    editline->setClearButtonEnabled(true);
-    editline->setStyleSheet("padding-left:5;");
-    toolbar->addWidget(editline);
+    editLine = new QLineEdit;
+    editLine->setStatusTip("Search Record");
+    editLine->setClearButtonEnabled(true);
+    editLine->setStyleSheet("padding-left:5;");
 
-    QRadioButton* radiobutton = new QRadioButton;
-    radiobutton->setText("By ID");
-    radiobutton->setStatusTip("Search By ID");
-    radiobutton->setChecked(true);
-    radiobutton->setStyleSheet("padding-left:5;");
-    toolbar->addWidget(radiobutton);
+    connect(editLine ,SIGNAL(returnPressed()), this, SLOT(searchMenu()));
+    connect(editLine ,SIGNAL(textChanged(const QString &)), this, SLOT(resetMenu(const QString &)));
 
-    radiobutton = new QRadioButton;
-    radiobutton->setText("By Name");
-    radiobutton->setStatusTip("Search By Name");
-    radiobutton->setStyleSheet("padding-left:5; padding-right:5;");
-    toolbar->addWidget(radiobutton);
+    toolbar->addWidget(editLine);
+
+    radioId = new QRadioButton;
+    radioId->setText("By ID");
+    radioId->setStatusTip("Search By ID");
+    radioId->setChecked(true);
+    radioId->setStyleSheet("padding-left:5;");
+    toolbar->addWidget(radioId);
+
+    radioName = new QRadioButton;
+    radioName->setText("By Name");
+    radioName->setStatusTip("Search By Name");
+    radioName->setStyleSheet("padding-left:5; padding-right:5;");
+    toolbar->addWidget(radioName);
 
     button = new QToolButton;
     button->setIcon(QIcon(":/images/database-search-icon.png"));
     button->setToolTip("Search Record");
     button->setText(button->toolTip());
     button->setStatusTip(button->toolTip());
+
+    connect(button ,SIGNAL(clicked()), this, SLOT(searchMenu()));
     toolbar->addWidget(button);
 
 }

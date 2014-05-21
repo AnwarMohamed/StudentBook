@@ -6,8 +6,14 @@ StudentModel::StudentModel(): QAbstractTableModel()
 {
     dataTree = new StudentTree(this);
 
-    for (int i=0; i<10; i++)
-        dataTree->Insert(i, "Anwar", 0);
+    //for (int i=0; i<10; i++)
+        //dataTree->Insert(i, "Anwar", 0);
+
+    dataTree->Insert(1, "Anwar mohamed", 0);
+    dataTree->Insert(2, "Abdallah", 0);
+    dataTree->Insert(4, "Yasmine", 0);
+    dataTree->Insert(3, "Moataz", 0);
+    dataTree->Insert(5, "Moataz", 0);
 
     //for (int i=50; i<100; i++)
     //    dataTree->Insert(i, "Anwar");
@@ -18,9 +24,26 @@ StudentModel::StudentModel(): QAbstractTableModel()
     //dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
 }
 
+void StudentModel::Search(char* fullname)
+{
+    beginResetModel();
+    dataTree->SearchSub(fullname);
+    endResetModel();
+}
+
+void StudentModel::Search(int id)
+{
+    beginResetModel();
+    dataTree->Search(id);
+    endResetModel();
+}
+
+
 void StudentModel::SetMode(int mode)
 {
+    beginResetModel();
     dataTree->SetMode(mode);
+    endResetModel();
 }
 
 unsigned int StudentModel::Size()

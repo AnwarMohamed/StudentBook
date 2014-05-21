@@ -26,21 +26,33 @@ private:
     TREE *bstId, *bstName, *viewTree;
     TREE_NODE*      tempNode;
     TREE_NODE_DATA* tempData;
+    TREE_NODE**     pTempNode;
     unsigned int    tempUint;
+    LinkedList*     tempLList;
     unsigned int    treeSize;
     LinkedList*     viewList;
     QAbstractTableModel* model;
     int treeMode;
 
+    char* fileBuffer;
+    unsigned int fileBufferSize;
+    FILE* fileObj;
+
     void        InsertSortedId(TREE_NODE** root, TREE_NODE* node);
+    void        InsertSortedName(TREE_NODE** root, TREE_NODE* node);
+
     TREE_NODE*  NewNode(TREE_NODE_DATA* data);
     void        DeleteNode(TREE_NODE** node);
     TREE_NODE** SmallestNode(TREE_NODE** node);
-    void        GeneratePreOrder(TREE_NODE* root);
-    void        GenerateInOrder(TREE_NODE* root);
-    void        GeneratePostOrder(TREE_NODE* root);
+
+    void        GeneratePreOrder(TREE_NODE* root, bool reflect=true, LinkedList* list=0);
+    void        GenerateInOrder(TREE_NODE* root, bool reflect=true, LinkedList* list=0);
+    void        GeneratePostOrder(TREE_NODE* root, bool reflect=true, LinkedList* list=0);
 
     bool        ValidFullname(char* fullname, unsigned int* len=0);
+
+    TREE_NODE** Search(TREE_NODE** root, unsigned int Id);
+
 public:
     StudentTree(QAbstractTableModel* model);
     ~StudentTree();
@@ -53,14 +65,18 @@ public:
     void        Delete(unsigned int index);
     void        Delete(TREE_NODE* node, unsigned int flags);
 
-    TREE_NODE** Search(TREE_NODE* node);
-    LinkedList* Search(char* fullname);
     TREE_NODE** Search(unsigned int id);
+    TREE_NODE** Search(char* fullname);
+
+    void        SearchSub(char* fullname);
 
     bool        Set(unsigned int index, unsigned int id);
     bool        Set(unsigned int index, char* fullname);
 
     bool        Exists(unsigned int id);
+
+    bool        LoadFromFile(char* filename);
+    bool        SaveToFile(char* filename);
 };
 
 #endif // STUDENTTREE_H

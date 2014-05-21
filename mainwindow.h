@@ -12,6 +12,8 @@
 #include <QToolButton>
 #include "aboutdialog.h"
 #include "studentmodel.h"
+#include <QRadioButton>
+#include <QLineEdit>
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +26,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    
+
 private slots:
     void aboutDialog();
     void changeViewOrder(int orderType);
@@ -32,11 +34,15 @@ private slots:
     void editMenu();
     void deleteMenu();
     void addMenu();
+    void searchMenu();
+    void resetMenu(const QString &);
 
 private:
     int orderMode;
     int sortMode;
     QModelIndexList indexList;
+    QLineEdit* editLine;
+    QRadioButton *radioId, *radioName;
 
     Ui::MainWindow *ui;
     void setupStatusbar();
