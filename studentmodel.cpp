@@ -9,11 +9,11 @@ StudentModel::StudentModel(): QAbstractTableModel()
     //for (int i=0; i<10; i++)
         //dataTree->Insert(i, "Anwar", 0);
 
-    dataTree->Insert(1, "Anwar mohamed", 0);
-    dataTree->Insert(2, "Abdallah", 0);
-    dataTree->Insert(4, "Yasmine", 0);
-    dataTree->Insert(3, "Moataz", 0);
-    dataTree->Insert(5, "Moataz", 0);
+    //dataTree->Insert(1, "Anwar mohamed", 0);
+    //dataTree->Insert(2, "Abdallah", 0);
+    //dataTree->Insert(4, "Yasmine", 0);
+    //dataTree->Insert(3, "Moataz", 0);
+    //dataTree->Insert(5, "Moataz", 0);
 
     //for (int i=50; i<100; i++)
     //    dataTree->Insert(i, "Anwar");
@@ -145,11 +145,22 @@ Qt::ItemFlags StudentModel::flags(const QModelIndex &index) const
 
 bool StudentModel::removeRow(int row, const QModelIndex&)
 {
+    if (row >= 0)
+    {
+        beginRemoveRows(QModelIndex(),row,row);
+        dataTree->Delete(row);
+        endRemoveRows();
+    }
 
-    beginRemoveRows(QModelIndex(),row,row);
-    dataTree->Delete(row);
-    endRemoveRows();
     return true;
+}
+
+bool StudentModel::OpenFile(char* filename, int mode)
+{
+    beginResetModel();
+    tempBool = dataTree->LoadFromFile(filename, mode);
+    endResetModel();
+    return tempBool;
 }
 
 StudentModel::~StudentModel()

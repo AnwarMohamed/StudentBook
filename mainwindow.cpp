@@ -3,6 +3,7 @@
 #include <QDesktopWidget>
 #include <QLineEdit>
 #include <QRadioButton>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -23,6 +24,13 @@ MainWindow::MainWindow(QWidget *parent) :
     setupTableRecords();
 
     resizeEvent(0);
+}
+
+void MainWindow::openMenu()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
+    if (!fileName.isEmpty())
+        tableModel->OpenFile(fileName.toLocal8Bit().data(), orderMode | sortMode);
 }
 
 void MainWindow::setupTableRecords()
@@ -107,15 +115,15 @@ void MainWindow::setupMenubar()
     connect(ui->actionEdit ,SIGNAL(triggered(bool)), this, SLOT(editMenu()));
     connect(ui->actionDelete ,SIGNAL(triggered(bool)), this, SLOT(deleteMenu()));
     connect(ui->actionAdd_New ,SIGNAL(triggered(bool)), this, SLOT(addMenu()));
+    connect(ui->actionOpen ,SIGNAL(triggered(bool)), this, SLOT(openMenu()));
 }
 
 void MainWindow::deleteMenu()
 {
     indexList = table->selectionModel()->selectedIndexes();
-        tableModel->removeRow(indexList.value(0).row());
-        if (!indexList.isEmpty())
-
-    checkEnability(true);
+    tableModel->removeRow(indexList.value(0).row());
+    if (!indexList.isEmpty())
+        checkEnability(true);
 }
 
 void MainWindow::addMenu()

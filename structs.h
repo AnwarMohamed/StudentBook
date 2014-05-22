@@ -1,11 +1,14 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+struct TREE_NODE;
+
 struct TREE_NODE_DATA
 {
     unsigned int id;
     char *fullname;
     unsigned int flags;
+    TREE_NODE** bstId, **bstName;
 };
 
 struct TREE_NODE

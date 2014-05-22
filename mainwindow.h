@@ -36,6 +36,7 @@ private slots:
     void addMenu();
     void searchMenu();
     void resetMenu(const QString &);
+    void openMenu();
 
 private:
     int orderMode;

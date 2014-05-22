@@ -42,7 +42,7 @@ private:
     void        InsertSortedName(TREE_NODE** root, TREE_NODE* node);
 
     TREE_NODE*  NewNode(TREE_NODE_DATA* data);
-    void        DeleteNode(TREE_NODE** node);
+    void        DeleteNode(TREE_NODE** node, bool deleteData=false, bool bstName=false);
     TREE_NODE** SmallestNode(TREE_NODE** node);
 
     void        GeneratePreOrder(TREE_NODE* root, bool reflect=true, LinkedList* list=0);
@@ -52,6 +52,8 @@ private:
     bool        ValidFullname(char* fullname, unsigned int* len=0);
 
     TREE_NODE** Search(TREE_NODE** root, unsigned int Id);
+    unsigned int GetfileSize(const char * filename);
+    void        ParseFile();
 
 public:
     StudentTree(QAbstractTableModel* model);
@@ -59,7 +61,7 @@ public:
 
     unsigned int Size();
     TREE_NODE*  Get(unsigned int index);
-    void        Insert(unsigned int id, char* fullname, unsigned int flags, bool reorder=false);
+    void        Insert(unsigned int id, char* fullname, unsigned int flags=0, bool reorder=false);
     void        SetMode(int mode);
 
     void        Delete(unsigned int index);
@@ -75,7 +77,7 @@ public:
 
     bool        Exists(unsigned int id);
 
-    bool        LoadFromFile(char* filename);
+    bool        LoadFromFile(char* filename, int mode);
     bool        SaveToFile(char* filename);
 };
 
