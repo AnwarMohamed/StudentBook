@@ -101,7 +101,7 @@ void StudentTree::ParseFile()
 {
     if (!fileBufferSize) return;
 
-    int i, strings_size=0;
+    unsigned int i, strings_size=0;
     char** strings = (char**) malloc(strings_size * sizeof(char*));
 
     for (i=0; i<fileBufferSize; i++)
@@ -133,39 +133,26 @@ void StudentTree::ParseFile()
         if (strlen(*(strings+i*2+1)) > 10)
             continue;
 
-        tempUint = atoi(*(strings+i*2+1));
-
-        if (strcmp(QString::number(tempUint).toLocal8Bit().data(),
+        if (strcmp(QString::number(atoi(*(strings+i*2+1))).toLocal8Bit().data(),
                    *(strings+i*2+1)) != 0)
             continue;
 
         if (ValidFullname(*(strings+i*2)))
-            Insert(tempUint, *(strings+i*2));
+            Insert(atoi(*(strings+i*2+1)), *(strings+i*2));
     }
 
     free(strings);
 }
 
-bool StudentTree::SaveToFile(char* filename)
+bool StudentTree::SaveToFile(/*char* filename*/)
 {
-
+    return true;
 }
 
 bool StudentTree::Exists(unsigned int id)
 {
-    if (!viewList->Size())
-        return false;
-
-    viewList->IteratorReset();
-
-    if (viewList->IteratorCurrent() &&
-            viewList->IteratorCurrent()->data->id == id)
-        return true;
-
-    while((tempNode = viewList->IteratorInc()))
-        if (tempNode->data->id == id)
-            return true;
-    return false;
+    pTempNode = Search(&(bstId->root),id);
+    return pTempNode? true: false;
 }
 
 bool StudentTree::Set(unsigned int index, unsigned int id)
@@ -222,9 +209,9 @@ bool StudentTree::ValidFullname(char* fullname, unsigned int* len)
 void StudentTree::Delete(unsigned int index)
 {
     tempNode = Get(index);
-    pTempNode = tempNode->data->bstName;
+    TREE_NODE**p = tempNode->data->bstName;
     DeleteNode(tempNode->data->bstId);
-    DeleteNode(pTempNode, true, true);
+    DeleteNode(p, true, true);
 
     SetMode(treeMode);
 }
@@ -236,7 +223,7 @@ void StudentTree::SearchSub(char* fullname)
     for(tempUint=0; tempUint<viewList->Size(); tempUint++)
     {
         tempNode = viewList->IteratorGoTo(tempUint);
-        if(strstr(tempNode->data->fullname, fullname))
+        if(strcasestr(tempNode->data->fullname, fullname))
             tempLList->InsertLast(tempNode);
     }
 
@@ -282,15 +269,13 @@ void StudentTree::Insert(unsigned int id, char* fullname, unsigned int flags, bo
     tempNode = NewNode(tempData);
     InsertSortedName(&(bstName->root), tempNode);
 
-    treeSize++;
-
     if (reorder)
         SetMode(treeMode);
 }
 
 TREE_NODE** StudentTree::SmallestNode(TREE_NODE** node)
 {
-    if (!(*node)) return NULL;
+    if (!(node) || !(*node)) return 0;
     if (!(*node)->left) return node;
     else return SmallestNode(&(*node)->left);
 }
@@ -300,26 +285,35 @@ void StudentTree::DeleteNode(TREE_NODE** node, bool deleteData, bool bstName)
     if (!node || !(*node)) return;
     if (!(*node)->left && !(*node)->right)
     {
-        if (deleteData) free((*node)->data);
+        if (deleteData)
+            free((*node)->data);
 
         free(*node);
         *node = 0;
     }
     else if ((*node)->left && (*node)->right)
     {
-        pTempNode = SmallestNode(&(*node)->right);
+        TREE_NODE** smallestTree = SmallestNode(&(*node)->right);
+        TREE_NODE* orgNode = *smallestTree;
 
-        if (!bstName)
-            (*pTempNode)->data->bstId = (*node)->data->bstId;
+        if (deleteData) free((*node)->data);
+        (*node)->data = (orgNode)->data;
+
+        if (bstName)
+            (*node)->data->bstName = node;
         else
-            (*pTempNode)->data->bstName = (*node)->data->bstName;
+            (*node)->data->bstId = node;
 
-        (*node)->data = (*pTempNode)->data;
+        if (orgNode->right)
+        {
+            if (bstName)
+                orgNode->right->data->bstName = orgNode->data->bstName;
+            else
+                orgNode->right->data->bstId = orgNode->data->bstId;
+            *smallestTree = (*smallestTree)->right;
+        }
 
-        if (deleteData) free((*pTempNode)->data);
-
-        free(*pTempNode);
-        *pTempNode = 0;
+        free(orgNode);
     }
     else
     {
@@ -330,13 +324,12 @@ void StudentTree::DeleteNode(TREE_NODE** node, bool deleteData, bool bstName)
         else
             tempNode->data->bstName = (*node)->data->bstName;
 
-        if (deleteData) free((*node)->data);
+        if (deleteData)
+            free((*node)->data);
 
         free(*node);
         *node = tempNode;
     }
-
-    treeSize--;
 }
 
 void StudentTree::InsertSortedName(TREE_NODE** root, TREE_NODE* node)

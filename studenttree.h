@@ -78,7 +78,7 @@ public:
     bool        Exists(unsigned int id);
 
     bool        LoadFromFile(char* filename, int mode);
-    bool        SaveToFile(char* filename);
+    bool        SaveToFile(/*char* filename*/);
 };
 
 #endif // STUDENTTREE_H

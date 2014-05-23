@@ -36,6 +36,8 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool removeRow(int row, const QModelIndex & parent = QModelIndex());
 
+    void Insert(unsigned int id, char* fullname, unsigned int flags=0, bool reorder=false);
+
     void SetMode(int mode);
     unsigned int Size();
 

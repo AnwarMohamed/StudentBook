@@ -1,13 +1,28 @@
 #include "studentmodel.h"
 #include <cstdlib>
 #include <cctype>
+#include <string>
+#include <ostream>
+#include <sstream>
+#include <iostream>
+
+using namespace std;
 
 StudentModel::StudentModel(): QAbstractTableModel()
 {
     dataTree = new StudentTree(this);
 
-    //for (int i=0; i<10; i++)
-        //dataTree->Insert(i, "Anwar", 0);
+    for (int i=0; i<11; i++)
+    {
+        ostringstream convert;
+        convert << i;
+        string str = string("Anwar") + string(convert.str().c_str());
+        char* strr = new char[str.size() + 1];
+        strcpy(strr, str.c_str());
+        dataTree->Insert(i, strr, 0);
+    }
+
+
 
     //dataTree->Insert(1, "Anwar mohamed", 0);
     //dataTree->Insert(2, "Abdallah", 0);
@@ -22,6 +37,14 @@ StudentModel::StudentModel(): QAbstractTableModel()
     //    dataTree->Insert(i, "Anwar");
 
     //dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
+}
+
+void StudentModel::Insert(unsigned int id, char *fullname, unsigned int flags, bool reorder)
+{
+    beginResetModel();
+    dataTree->Insert(id, fullname, flags, reorder);
+    endResetModel();
+
 }
 
 void StudentModel::Search(char* fullname)

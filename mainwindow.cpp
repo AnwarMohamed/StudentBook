@@ -4,6 +4,7 @@
 #include <QLineEdit>
 #include <QRadioButton>
 #include <QFileDialog>
+#include "adddialog.h"
 
 using namespace std;
 
@@ -24,13 +25,19 @@ MainWindow::MainWindow(QWidget *parent) :
     setupTableRecords();
 
     resizeEvent(0);
+    checkEnability(true);
 }
 
 void MainWindow::openMenu()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"",tr("Files (*.*)"));
     if (!fileName.isEmpty())
-        tableModel->OpenFile(fileName.toLocal8Bit().data(), orderMode | sortMode);
+    {
+        if (tableModel->OpenFile(fileName.toLocal8Bit().data(), orderMode | sortMode))
+            checkEnability(true);
+        else
+            QMessageBox::information(this, "Error", "Unable to open file", QMessageBox::Ok);
+    }
 }
 
 void MainWindow::setupTableRecords()
@@ -128,9 +135,10 @@ void MainWindow::deleteMenu()
 
 void MainWindow::addMenu()
 {
-    tableModel->insertRow(0);
-    tableModel->insertColumn(0);
-    tableModel->insertColumn(1);
+    AddDialog add;
+    add.SetModel(tableModel);
+    add.show();
+    add.exec();
 }
 
 void MainWindow::editMenu()
@@ -231,6 +239,7 @@ void MainWindow::setupToolbar()
     button->setToolTip("Add Record");
     button->setText(button->toolTip());
     button->setStatusTip(button->toolTip());
+    connect(button ,SIGNAL(clicked()), this, SLOT(addMenu()));
     toolbar->addWidget(button);
 
     button = new QToolButton;

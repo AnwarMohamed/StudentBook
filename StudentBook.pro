@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     studenttree.cpp \
     studentmodel.cpp \
     linkedlist.cpp \
-    misc.cpp
+    misc.cpp \
+    adddialog.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -27,11 +28,13 @@ HEADERS  += \
     studentmodel.h \
     linkedlist.h \
     structs.h \
-    misc.h
+    misc.h \
+    adddialog.h
 
 FORMS    += \
     mainwindow.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    adddialog.ui
 
 RESOURCES += \
     StudentBook.qrc

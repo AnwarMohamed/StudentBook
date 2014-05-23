@@ -9,8 +9,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::WindowStaysOnTopHint);
-    setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+    //setWindowFlags(Qt::FramelessWindowHint);
 
     QRect frect = frameGeometry();
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
