@@ -12,7 +12,7 @@ StudentModel::StudentModel(): QAbstractTableModel()
 {
     dataTree = new StudentTree(this);
 
-    for (int i=0; i<11; i++)
+    /*for (int i=0; i<11; i++)
     {
         ostringstream convert;
         convert << i;
@@ -20,7 +20,7 @@ StudentModel::StudentModel(): QAbstractTableModel()
         char* strr = new char[str.size() + 1];
         strcpy(strr, str.c_str());
         dataTree->Insert(i, strr, 0);
-    }
+    }*/
 
 
 
@@ -39,12 +39,21 @@ StudentModel::StudentModel(): QAbstractTableModel()
     //dataTree->SetMode(SORT_BY_ID | VIEW_ORDER_IN);
 }
 
-void StudentModel::Insert(unsigned int id, char *fullname, unsigned int flags, bool reorder)
+bool StudentModel::Insert(unsigned int id, char *fullname)
 {
     beginResetModel();
-    dataTree->Insert(id, fullname, flags, reorder);
-    endResetModel();
+    tempBool = true;
+    pTempChar = (char*)malloc(strlen(fullname) + 1);
+    strcpy(pTempChar, fullname);
 
+    if (!dataTree->Insert(id, pTempChar, DATA_USER_ALLOC, true))
+    {
+        free(pTempChar);
+        tempBool = false;
+    }
+
+    endResetModel();
+    return tempBool;
 }
 
 void StudentModel::Search(char* fullname)
@@ -147,7 +156,7 @@ bool StudentModel::setData(const QModelIndex &index, const QVariant &value, int 
                 return false;
             break;
         case FULLNAME:
-            if (!dataTree->Set(row, value.toString().toLocal8Bit().data()))
+            if (!value.toString().size() || !dataTree->Set(row, value.toString().toLocal8Bit().data()))
                 return false;
             break;
         default:

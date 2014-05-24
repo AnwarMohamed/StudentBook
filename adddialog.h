@@ -19,11 +19,13 @@ public:
     ~AddDialog();
 
 public slots:
-    void insertadd();
+    void Insert();
+    void Reset(const QString &);
 
 private:
     Ui::AddDialog *ui;
     StudentModel *model;
+    unsigned int tempUint;
 
 
 

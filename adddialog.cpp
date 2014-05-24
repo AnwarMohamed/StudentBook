@@ -16,9 +16,29 @@ AddDialog::AddDialog(QWidget *parent) :
     QRect frect = frameGeometry();
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
     move(frect.topLeft());
-    setWindowTitle("Add A New Student");
 
-    connect(ui->pushAdd,SIGNAL(clicked()),this,SLOT(insertadd()) );
+    connect(ui->pushAdd, SIGNAL(clicked()), this, SLOT(Insert()));
+    connect(ui->editFullname ,SIGNAL(textChanged(const QString &)), this, SLOT(Reset(const QString &)));
+    connect(ui->editId ,SIGNAL(textChanged(const QString &)), this, SLOT(Reset(const QString &)));
+
+    ui->pushAdd->setEnabled(false);
+}
+
+void AddDialog::Reset(const QString &)
+{
+    if (ui->editFullname->text().size() > 0 &&
+            ui->editId->text().size() > 0)
+    {
+        tempUint = atoi(ui->editId->text().toLocal8Bit().data());
+
+        if (strcmp(QString::number(tempUint).toLocal8Bit().data(),
+                   ui->editId->text().toLocal8Bit().data()) == 0)
+            ui->pushAdd->setEnabled(true);
+        else
+            ui->pushAdd->setEnabled(false);
+    }
+    else
+        ui->pushAdd->setEnabled(false);
 }
 
 AddDialog::~AddDialog()
@@ -31,14 +51,24 @@ void AddDialog::SetModel(StudentModel *model)
     this->model=model;
 }
 
-void AddDialog::insertadd()
+void AddDialog::Insert()
 {
-    model->Insert(
+    if (!model->Insert(
                 ui->editId->text().toUInt(),
-                ui->editFullname->text().toLocal8Bit().data(),
-                0,
-                true);
-    close();
+                ui->editFullname->text().toLocal8Bit().data()))
+    {
+        QMessageBox::critical(this, "Error", "Inserting new student failed!\nTry again.", QMessageBox::Ok);
+        ui->pushAdd->setEnabled(false);
+        ui->editFullname->setText("");
+        ui->editId->setText("");
+    }
+    else
+    {
+        ui->pushAdd->setEnabled(false);
+        ui->editFullname->setText("");
+        ui->editId->setText("");
+        close();
+    }
 }
 
 

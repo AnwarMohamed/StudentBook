@@ -55,13 +55,16 @@ private:
     unsigned int GetfileSize(const char * filename);
     void        ParseFile();
 
+    void        Balance(int min, int max, LinkedList* list, bool bstId);
+
+    void        DeleteTree(TREE_NODE** root, bool nodes=false, bool data=false);
 public:
     StudentTree(QAbstractTableModel* model);
     ~StudentTree();
 
     unsigned int Size();
     TREE_NODE*  Get(unsigned int index);
-    void        Insert(unsigned int id, char* fullname, unsigned int flags=0, bool reorder=false);
+    bool        Insert(unsigned int id, char* fullname, unsigned int flags=0, bool reorder=false);
     void        SetMode(int mode);
 
     void        Delete(unsigned int index);
@@ -79,6 +82,8 @@ public:
 
     bool        LoadFromFile(char* filename, int mode);
     bool        SaveToFile(/*char* filename*/);
+
+    void        Balance();
 };
 
 #endif // STUDENTTREE_H

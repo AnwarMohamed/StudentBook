@@ -16,6 +16,7 @@ class StudentModel: public QAbstractTableModel
     bool tempBool;
     unsigned int tempUint;
     char tempChar[10];
+    char* pTempChar;
 
 public:
     StudentModel();
@@ -36,7 +37,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool removeRow(int row, const QModelIndex & parent = QModelIndex());
 
-    void Insert(unsigned int id, char* fullname, unsigned int flags=0, bool reorder=false);
+    bool Insert(unsigned int id, char* fullname);
 
     void SetMode(int mode);
     unsigned int Size();

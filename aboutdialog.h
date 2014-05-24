@@ -19,6 +19,7 @@ public:
     
 private:
     Ui::AboutDialog *ui;
+    bool isTimer;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *);

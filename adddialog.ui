@@ -20,7 +20,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Add A New Student</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="StudentBook.qrc">
+    <normaloff>:/images/graduated.png</normaloff>:/images/graduated.png</iconset>
   </property>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -122,7 +126,9 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="StudentBook.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushCancel</sender>

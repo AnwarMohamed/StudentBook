@@ -165,7 +165,7 @@ TREE_NODE* LinkedList::IteratorCurrent()
 
 TREE_NODE* LinkedList::IteratorInc()
 {
-    if (iterator.node->next)
+    if (iterator.node && iterator.node->next)
     {
         iterator.index++;
         iterator.node = iterator.node->next;

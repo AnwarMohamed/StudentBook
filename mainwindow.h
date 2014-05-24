@@ -14,6 +14,7 @@
 #include "studentmodel.h"
 #include <QRadioButton>
 #include <QLineEdit>
+#include "adddialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -60,9 +61,10 @@ private:
     QActionGroup* orderGroup, *sortGroup;
     QSignalMapper* orderSignalMapper, *sortSignalMapper;
 
-
     bool checkSaveMessage();
 
+    AboutDialog* about;
+    AddDialog* add;
 
 protected:
     void resizeEvent(QResizeEvent * event);

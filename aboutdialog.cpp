@@ -9,18 +9,21 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
-    //setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(
+                Qt::WindowStaysOnTopHint |
+                Qt::FramelessWindowHint);
 
     QRect frect = frameGeometry();
     frect.moveCenter(QDesktopWidget().availableGeometry().center());
     move(frect.topLeft());
 
     setWindowTitle("About Us");
+    isTimer = false;
 }
 
 void AboutDialog::setAsSplash(int ms)
 {
+    isTimer = true;
     setWindowTitle("Student Book Pro");
     QTimer::singleShot(ms, this, SLOT(accept()));
 }
@@ -32,5 +35,6 @@ AboutDialog::~AboutDialog()
 
 void AboutDialog::mouseReleaseEvent(QMouseEvent*)
 {
-    close();
+    if (!isTimer)
+        close();
 }

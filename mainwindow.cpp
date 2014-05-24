@@ -26,6 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resizeEvent(0);
     checkEnability(true);
+
+    about = new AboutDialog;
+    add = new AddDialog;
+    add->SetModel(tableModel);
+
+    if (tableModel->OpenFile("/media/DATA/College/data_structures/Project/StudentBook/test.txt", orderMode | sortMode))
+        checkEnability(true);
 }
 
 void MainWindow::openMenu()
@@ -135,10 +142,9 @@ void MainWindow::deleteMenu()
 
 void MainWindow::addMenu()
 {
-    AddDialog add;
-    add.SetModel(tableModel);
-    add.show();
-    add.exec();
+    add->show();
+    if (!add->exec())
+        checkEnability(true);
 }
 
 void MainWindow::editMenu()
@@ -156,10 +162,11 @@ void MainWindow::resetMenu(const QString & str)
 
 void MainWindow::searchMenu()
 {
-    if (radioName->isChecked())
-        tableModel->Search(editLine->text().toLocal8Bit().data());
-    else
-        tableModel->Search(editLine->text().toUInt());
+    if (editLine->text().size() > 0)
+        if (radioName->isChecked())
+            tableModel->Search(editLine->text().toLocal8Bit().data());
+        else
+            tableModel->Search(editLine->text().toUInt());
 }
 
 void MainWindow::setupEnvironment()
@@ -196,9 +203,8 @@ void MainWindow::resizeEvent(QResizeEvent*)
 
 void MainWindow::aboutDialog()
 {
-    AboutDialog about;
-    about.show();
-    about.exec();
+    about->show();
+    about->exec();
 }
 
 bool MainWindow::checkSaveMessage()
