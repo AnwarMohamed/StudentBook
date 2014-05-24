@@ -372,6 +372,8 @@ void StudentTree::DeleteNode(TREE_NODE** node, bool deleteData, bool bstName)
                 orgNode->right->data->bstId = orgNode->data->bstId;
             *smallestTree = (*smallestTree)->right;
         }
+        else
+           *smallestTree = 0;
 
         free(orgNode);
     }
@@ -447,7 +449,7 @@ void StudentTree::InsertSortedId(TREE_NODE** root, TREE_NODE* node)
         if (!(*root)->left)
         {
             (*root)->left = node;
-            node->data->bstName = &((*root)->left);
+            node->data->bstId = &((*root)->left);
         }
         else
             InsertSortedId(&((*root)->left), node);
