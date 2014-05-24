@@ -38,6 +38,10 @@ private slots:
     void searchMenu();
     void resetMenu(const QString &);
     void openMenu();
+    void saveMenu();
+
+protected slots:
+    void keyPressEvent(QKeyEvent *k);
 
 private:
     int orderMode;

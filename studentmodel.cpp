@@ -195,6 +195,11 @@ bool StudentModel::OpenFile(char* filename, int mode)
     return tempBool;
 }
 
+bool StudentModel::SaveFile(char* filename, int mode)
+{
+    return dataTree->SaveToFile(filename, mode);
+}
+
 StudentModel::~StudentModel()
 {
 

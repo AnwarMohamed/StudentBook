@@ -46,6 +46,7 @@ public:
     void Search(char* fullname);
 
     bool OpenFile(char* filename, int mode);
+    bool SaveFile(char* filename, int mode);
 };
 
 #endif // STUDENTMODEL_H

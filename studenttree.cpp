@@ -131,7 +131,7 @@ bool StudentTree::LoadFromFile(char* filename, int mode)
         return false;
 
     ParseFile();
-    Balance();
+    //Balance();
     SetMode(mode);
 
     return true;
@@ -193,8 +193,23 @@ void StudentTree::ParseFile()
     free(strings);
 }
 
-bool StudentTree::SaveToFile(/*char* filename*/)
+bool StudentTree::SaveToFile(char* filename, int mode)
 {
+    fileObj = fopen(filename, "w+");
+    if (!fileObj) return false;
+
+    SetMode(mode);
+
+    for (tempUint=0; tempUint<Size(); tempUint++)
+    {
+        tempNode = Get(tempUint);
+        fprintf(fileObj,
+                "%s,%d\n",
+                tempNode->data->fullname,
+                tempNode->data->id);
+    }
+
+    fclose(fileObj);
     return true;
 }
 

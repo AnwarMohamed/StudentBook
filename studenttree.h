@@ -81,7 +81,7 @@ public:
     bool        Exists(unsigned int id);
 
     bool        LoadFromFile(char* filename, int mode);
-    bool        SaveToFile(/*char* filename*/);
+    bool        SaveToFile(char* filename, int mode);
 
     void        Balance();
 };

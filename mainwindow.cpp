@@ -31,8 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     add = new AddDialog;
     add->SetModel(tableModel);
 
-    if (tableModel->OpenFile("/media/DATA/College/data_structures/Project/StudentBook/test.txt", orderMode | sortMode))
-        checkEnability(true);
+    //if (tableModel->OpenFile("/media/DATA/College/data_structures/Project/StudentBook/test.txt", orderMode | sortMode))
+    //    checkEnability(true);
+
+    //for (int i=0; i<26; i++)
+    //    tableModel->removeRow(0);
 }
 
 void MainWindow::openMenu()
@@ -43,7 +46,7 @@ void MainWindow::openMenu()
         if (tableModel->OpenFile(fileName.toLocal8Bit().data(), orderMode | sortMode))
             checkEnability(true);
         else
-            QMessageBox::information(this, "Error", "Unable to open file", QMessageBox::Ok);
+            QMessageBox::critical(this, "Error", "Unable to open file", QMessageBox::Ok);
     }
 }
 
@@ -130,6 +133,7 @@ void MainWindow::setupMenubar()
     connect(ui->actionDelete ,SIGNAL(triggered(bool)), this, SLOT(deleteMenu()));
     connect(ui->actionAdd_New ,SIGNAL(triggered(bool)), this, SLOT(addMenu()));
     connect(ui->actionOpen ,SIGNAL(triggered(bool)), this, SLOT(openMenu()));
+    connect(ui->actionSave ,SIGNAL(triggered(bool)), this, SLOT(saveMenu()));
 }
 
 void MainWindow::deleteMenu()
@@ -158,6 +162,26 @@ void MainWindow::resetMenu(const QString & str)
         tableModel->SetMode(sortMode | orderMode);
     //else
     //    searchMenu();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *k)
+{
+    if (k == QKeySequence::Delete)
+        deleteMenu();
+    else if (k == QKeySequence::Open)
+        openMenu();
+    else if (k == QKeySequence::New)
+        addMenu();
+    else if (k == QKeySequence::Save)
+        saveMenu();
+}
+
+void MainWindow::saveMenu()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),"",tr("Files (*.*)"));
+    if (!fileName.isEmpty())
+        if (!tableModel->SaveFile(fileName.toLocal8Bit().data(), orderMode | sortMode))
+            QMessageBox::information(this, "Error", "Unable to save file", QMessageBox::Ok);
 }
 
 void MainWindow::searchMenu()
