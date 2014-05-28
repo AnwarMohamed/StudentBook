@@ -66,7 +66,7 @@ void StudentModel::Search(char* fullname)
 void StudentModel::Search(int id)
 {
     beginResetModel();
-    dataTree->Search(id);
+    dataTree->Search(id, true);
     endResetModel();
 }
 

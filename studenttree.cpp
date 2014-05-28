@@ -47,6 +47,7 @@ void StudentTree::Balance(int min, int max, LinkedList* list, bool bstId)
     if (min <= max)
     {
         int middleNode = (int)ceil(((double)min + max) / 2);
+        list->IteratorReset();
         TREE_NODE* node = list->IteratorGoTo(middleNode);
         //*node->data->bstId = *node->data->bstName = 0;
         //node->data->bstId = node->data->bstName = 0;
@@ -74,12 +75,26 @@ void StudentTree::DeleteTree(TREE_NODE** root, bool nodes, bool data)
         *root = 0;
 }
 
-TREE_NODE** StudentTree::Search(unsigned int id)
+TREE_NODE** StudentTree::Search(unsigned int id, bool reflect)
 {
-    viewList->Free();
     pTempNode = Search(&(bstId->root), id);
-    if (pTempNode)
-        viewList->InsertLast(*pTempNode );
+    if (pTempNode && reflect)
+    {
+        viewList->Free();
+        viewList->InsertLast(*pTempNode);
+    }
+
+    return pTempNode;
+}
+
+TREE_NODE** StudentTree::Search(char* fullname, bool reflect)
+{
+    pTempNode = Search(&(bstName->root), fullname);
+    if (pTempNode && reflect)
+    {
+        viewList->Free();
+        viewList->InsertLast(*pTempNode);
+    }
 
     return pTempNode;
 }
@@ -97,6 +112,21 @@ TREE_NODE** StudentTree::Search(TREE_NODE** root, unsigned int Id)
 
     else
         return Search(&((*root)->left),Id);
+}
+
+TREE_NODE** StudentTree::Search(TREE_NODE **root, char* fullname)
+{
+    if(!root || !*root)
+        return 0;
+
+    else if(strcmp((*root)->data->fullname,fullname)==0)
+        return root;
+
+    else if (strcmp((*root)->data->fullname,fullname) < 0)
+        return Search(&((*root)->right),fullname);
+
+    else
+        return Search(&((*root)->left),fullname);
 }
 
 bool StudentTree::LoadFromFile(char* filename, int mode)
@@ -131,7 +161,7 @@ bool StudentTree::LoadFromFile(char* filename, int mode)
         return false;
 
     ParseFile();
-    //Balance();
+    Balance();
     SetMode(mode);
 
     return true;
@@ -224,6 +254,7 @@ bool StudentTree::Set(unsigned int index, unsigned int id)
     if (Exists(id))
         return false;
 
+    viewList->IteratorReset();
     tempNode = viewList->IteratorGoTo(index);
     if (tempNode)
     {
@@ -236,6 +267,7 @@ bool StudentTree::Set(unsigned int index, unsigned int id)
 
 bool StudentTree::Set(unsigned int index, char* fullname)
 {
+    viewList->IteratorReset();
     tempNode = viewList->IteratorGoTo(index);
 
     if (tempNode)
@@ -273,9 +305,15 @@ bool StudentTree::ValidFullname(char* fullname, unsigned int* len)
 void StudentTree::Delete(unsigned int index)
 {
     tempNode = Get(index);
+    //pTempNode = Search(tempNode->data->fullname, false);
+    //DeleteNode(pTempNode);
+
+    //pTempNode = Search(tempNode->data->id, false);
+    //DeleteNode(pTempNode);
+
     TREE_NODE**p = tempNode->data->bstName;
-    DeleteNode(tempNode->data->bstId);
-    DeleteNode(p, true, true);
+    DeleteNode(tempNode->data->bstId, false, BST_ID);
+    DeleteNode(p, false, BST_NAME);
 
     SetMode(treeMode);
 }
@@ -283,6 +321,7 @@ void StudentTree::Delete(unsigned int index)
 void StudentTree::SearchSub(char* fullname)
 {
     tempLList->Free();
+    viewList->IteratorReset();
 
     for(tempUint=0; tempUint<viewList->Size(); tempUint++)
     {
@@ -292,6 +331,7 @@ void StudentTree::SearchSub(char* fullname)
     }
 
     viewList->Free();
+    tempLList->IteratorReset();
     for(tempUint=0; tempUint<tempLList->Size(); tempUint++)
         viewList->InsertLast(tempLList->IteratorGoTo(tempUint));
 
@@ -305,6 +345,7 @@ unsigned int StudentTree::Size()
 
 TREE_NODE* StudentTree::Get(unsigned int index)
 {
+    viewList->IteratorReset();
     return viewList->IteratorGoTo(index);
 }
 
@@ -388,7 +429,7 @@ void StudentTree::DeleteNode(TREE_NODE** node, bool deleteData, bool bstName)
             *smallestTree = (*smallestTree)->right;
         }
         else
-           *smallestTree = 0;
+            *smallestTree = 0;
 
         free(orgNode);
     }
@@ -513,21 +554,21 @@ void StudentTree::GeneratePreOrder(TREE_NODE* root, bool reflect, LinkedList* li
 void StudentTree::GenerateInOrder(TREE_NODE* root, bool reflect, LinkedList* list)
 {
     if (!root) return;
-    GeneratePreOrder(root->left, reflect, list);
+    GenerateInOrder(root->left, reflect, list);
 
     if (reflect)
         viewList->InsertLast(root);
     else if (!reflect && list)
         list->InsertLast(root);
 
-    GeneratePreOrder(root->right, reflect, list);
+    GenerateInOrder(root->right, reflect, list);
 }
 
 void StudentTree::GeneratePostOrder(TREE_NODE* root, bool reflect, LinkedList* list)
 {
     if (!root) return;
-    GeneratePreOrder(root->left, reflect, list);
-    GeneratePreOrder(root->right, reflect, list);
+    GeneratePostOrder(root->left, reflect, list);
+    GeneratePostOrder(root->right, reflect, list);
 
     if (reflect)
         viewList->InsertLast(root);

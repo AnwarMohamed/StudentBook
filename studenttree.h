@@ -19,6 +19,9 @@
 #define DATA_USER_ALLOC     2
 #define DATA_NO_ALLOC       3
 
+#define BST_ID  false
+#define BST_NAME !BST_ID
+
 class StudentTree
 {
 
@@ -52,6 +55,8 @@ private:
     bool        ValidFullname(char* fullname, unsigned int* len=0);
 
     TREE_NODE** Search(TREE_NODE** root, unsigned int Id);
+    TREE_NODE** Search(TREE_NODE **root, char* fullname);
+
     unsigned int GetfileSize(const char * filename);
     void        ParseFile();
 
@@ -70,8 +75,8 @@ public:
     void        Delete(unsigned int index);
     void        Delete(TREE_NODE* node, unsigned int flags);
 
-    TREE_NODE** Search(unsigned int id);
-    TREE_NODE** Search(char* fullname);
+    TREE_NODE** Search(unsigned int id, bool reflect);
+    TREE_NODE** Search(char* fullname, bool reflect);
 
     void        SearchSub(char* fullname);
 
