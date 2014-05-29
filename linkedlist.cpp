@@ -84,6 +84,7 @@ void LinkedList::RemoveLast()
 
 unsigned int LinkedList::Size()
 {
+    //IteratorReset();
     while(!IteratorEnd() && IteratorInc());
     return IteratorCurrentIndex() +
             ((!IteratorReset() && !IteratorCurrentIndex())?0:1);

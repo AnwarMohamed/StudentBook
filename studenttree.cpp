@@ -46,9 +46,11 @@ void StudentTree::Balance(int min, int max, LinkedList* list, bool bstId)
 {
     if (min <= max)
     {
-        int middleNode = (int)ceil(((double)min + max) / 2);
         list->IteratorReset();
+
+        int middleNode = (int)ceil(((double)min + max) / 2);  
         TREE_NODE* node = list->IteratorGoTo(middleNode);
+
         //*node->data->bstId = *node->data->bstName = 0;
         //node->data->bstId = node->data->bstName = 0;
         node->left = node->right = 0;
@@ -119,7 +121,7 @@ TREE_NODE** StudentTree::Search(TREE_NODE **root, char* fullname)
     if(!root || !*root)
         return 0;
 
-    else if(strcmp((*root)->data->fullname,fullname)==0)
+    else if(strcmp((*root)->data->fullname, fullname) == 0)
         return root;
 
     else if (strcmp((*root)->data->fullname,fullname) < 0)
@@ -191,18 +193,18 @@ void StudentTree::ParseFile()
             if (strings_size == 0 && i != 0)
             {
                 strings = (char**)realloc(strings, ++strings_size * sizeof(char*));
-                strings[strings_size-1] = fileBuffer;
+                *(strings+strings_size-1) = fileBuffer;
 
                 if (i+1 < fileBufferSize)
                 {
                     strings = (char**)realloc(strings, ++strings_size * sizeof(char*));
-                    strings[strings_size-1] = fileBuffer+i+1;
+                    *(strings+strings_size-1) = fileBuffer+i+1;
                 }
             }
             else if (i+1 < fileBufferSize)
             {
                 strings = (char**)realloc(strings, ++strings_size * sizeof(char*));
-                strings[strings_size-1] = fileBuffer+i+1;
+                *(strings+strings_size-1) = fileBuffer+i+1;
             }
         }
     }
@@ -305,15 +307,20 @@ bool StudentTree::ValidFullname(char* fullname, unsigned int* len)
 void StudentTree::Delete(unsigned int index)
 {
     tempNode = Get(index);
-    //pTempNode = Search(tempNode->data->fullname, false);
+
+    //tempUint = tempNode->data->id;
+    //tempChar = tempNode->data->fullname;
+
+    //pTempNode = Search(tempUint, false);
     //DeleteNode(pTempNode);
 
-    //pTempNode = Search(tempNode->data->id, false);
+    //pTempNode = Search(tempChar, false);
     //DeleteNode(pTempNode);
 
-    TREE_NODE**p = tempNode->data->bstName;
-    DeleteNode(tempNode->data->bstId, false, BST_ID);
-    DeleteNode(p, false, BST_NAME);
+    TREE_NODE_DATA* data = tempNode->data;
+    //TREE_NODE**p = tempNode->data->bstName;
+    DeleteNode(data->bstId, false, BST_ID);
+    DeleteNode(data->bstName, false, BST_NAME);
 
     SetMode(treeMode);
 }

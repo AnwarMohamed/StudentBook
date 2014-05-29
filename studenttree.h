@@ -29,6 +29,7 @@ private:
     TREE *bstId, *bstName, *viewTree;
     TREE_NODE*      tempNode;
     TREE_NODE_DATA* tempData;
+    char*           tempChar;
     TREE_NODE**     pTempNode;
     unsigned int    tempUint;
     LinkedList*     tempLList;
