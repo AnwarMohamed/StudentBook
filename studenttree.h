@@ -38,6 +38,9 @@ private:
     QAbstractTableModel* model;
     int treeMode;
 
+    TREE_NODE** smallestNode;
+    TREE_NODE_DATA* smallestNodeData;
+
     char* fileBuffer;
     unsigned int fileBufferSize;
     FILE* fileObj;

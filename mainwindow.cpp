@@ -34,8 +34,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //if (tableModel->OpenFile("/media/DATA/College/data_structures/Project/StudentBook/test.txt", orderMode | sortMode))
     //    checkEnability(true);
 
-    //for (int i=0; i<26; i++)
+    //while(tableModel->Size() > 0)
+    //{
     //    tableModel->removeRow(0);
+    //    tableModel->SetMode(orderMode | sortMode);
+    //}
 }
 
 void MainWindow::openMenu()

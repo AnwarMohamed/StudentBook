@@ -48,7 +48,7 @@ void StudentTree::Balance(int min, int max, LinkedList* list, bool bstId)
     {
         list->IteratorReset();
 
-        int middleNode = (int)ceil(((double)min + max) / 2);  
+        int middleNode = (int)ceil(((double)min + max) / 2);
         TREE_NODE* node = list->IteratorGoTo(middleNode);
 
         //*node->data->bstId = *node->data->bstName = 0;
@@ -73,9 +73,25 @@ void StudentTree::Balance(int min, int max, LinkedList* list, bool bstId)
 
 void StudentTree::DeleteTree(TREE_NODE** root, bool nodes, bool data)
 {
-    if (!nodes)
-        *root = 0;
+    if (!root || !*root) return;
+    DeleteTree(&(*root)->left, nodes, data);
+    DeleteTree(&(*root)->right, nodes, data);
+
+    if (nodes)
+    {
+        if (data)
+            free((*root)->data);
+        free(*root);
+    }
+    else
+    {
+        if (data)
+            free((*root)->data);
+        (*root) = 0;
+    }
+
 }
+
 
 TREE_NODE** StudentTree::Search(unsigned int id, bool reflect)
 {
@@ -318,7 +334,7 @@ void StudentTree::Delete(unsigned int index)
     //DeleteNode(pTempNode);
 
     TREE_NODE_DATA* data = tempNode->data;
-    //TREE_NODE**p = tempNode->data->bstName;
+
     DeleteNode(data->bstId, false, BST_ID);
     DeleteNode(data->bstName, false, BST_NAME);
 
@@ -404,13 +420,49 @@ void StudentTree::DeleteNode(TREE_NODE** node, bool deleteData, bool bstName)
     {
         if (deleteData)
             free((*node)->data);
+        else
+        {
+            if (bstName)
+                (*node)->data->bstName = 0;
+            else
+                (*node)->data->bstId = 0;
+        }
 
         free(*node);
         *node = 0;
     }
     else if ((*node)->left && (*node)->right)
     {
-        TREE_NODE** smallestTree = SmallestNode(&(*node)->right);
+        smallestNode = SmallestNode(&(*node)->right);
+        smallestNodeData = (*smallestNode)->data;
+
+        //free(*smallestNode);
+        //*smallestNode = 0;
+
+        DeleteNode(smallestNode, deleteData, bstName);
+
+        if (deleteData)
+        {
+            if ((*node)->data->flags & DATA_USER_ALLOC)
+                free((*node)->data->fullname);
+            free((*node)->data);
+        }
+        else
+        {
+            if (bstName)
+                (*node)->data->bstName = 0;
+            else
+                (*node)->data->bstId = 0;
+        }
+
+        (*node)->data = smallestNodeData;
+
+        if (bstName)
+            (*node)->data->bstName = node;
+        else
+            (*node)->data->bstId = node;
+
+        /*TREE_NODE** smallestTree = SmallestNode(&(*node)->right);
         TREE_NODE* orgNode = *smallestTree;
 
         if (deleteData)
@@ -438,7 +490,7 @@ void StudentTree::DeleteNode(TREE_NODE** node, bool deleteData, bool bstName)
         else
             *smallestTree = 0;
 
-        free(orgNode);
+        free(orgNode);*/
     }
     else
     {
