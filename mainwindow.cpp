@@ -190,10 +190,12 @@ void MainWindow::saveMenu()
 void MainWindow::searchMenu()
 {
     if (editLine->text().size() > 0)
+    {
         if (radioName->isChecked())
             tableModel->Search(editLine->text().toLocal8Bit().data());
         else
             tableModel->Search(editLine->text().toUInt());
+    }
 }
 
 void MainWindow::setupEnvironment()

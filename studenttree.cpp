@@ -269,7 +269,7 @@ bool StudentTree::Exists(unsigned int id)
 
 bool StudentTree::Set(unsigned int index, unsigned int id)
 {
-    if (Exists(id))
+    if ((int)id <= 0 || Exists(id))
         return false;
 
     viewList->IteratorReset();
@@ -316,6 +316,10 @@ bool StudentTree::ValidFullname(char* fullname, unsigned int* len)
     trim(fullname);
     f_capital(fullname);
     tempUint = strlen(fullname);
+
+    for(int i=0; i<tempUint; i++)
+        if (isdigit(*(fullname + i)))
+                return false;
 
     return tempUint?(len?(*len = tempUint):true):false;
 }
@@ -382,7 +386,7 @@ TREE_NODE * StudentTree::NewNode(TREE_NODE_DATA *data)
 
 bool StudentTree::Insert(unsigned int id, char* fullname, unsigned int flags, bool reorder)
 {
-    if (Exists(id))
+    if ((int)id <= 0 || Exists(id))
         return false;
 
     if(!ValidFullname(fullname))

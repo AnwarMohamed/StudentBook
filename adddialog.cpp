@@ -32,7 +32,8 @@ void AddDialog::Reset(const QString &)
         tempUint = atoi(ui->editId->text().toLocal8Bit().data());
 
         if (strcmp(QString::number(tempUint).toLocal8Bit().data(),
-                   ui->editId->text().toLocal8Bit().data()) == 0)
+                   ui->editId->text().toLocal8Bit().data()) == 0 &&
+                tempUint > 0)
             ui->pushAdd->setEnabled(true);
         else
             ui->pushAdd->setEnabled(false);
