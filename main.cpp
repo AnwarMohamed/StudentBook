@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     AboutDialog about;
     about.show();
-    about.setAsSplash(0);
+    about.setAsSplash(3000);
     about.exec();
 
     MainWindow mainWindow;
