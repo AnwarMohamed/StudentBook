@@ -61,12 +61,14 @@ void AddDialog::Insert()
         QMessageBox::critical(this, "Error", "Inserting new student failed!\nTry again.", QMessageBox::Ok);
         ui->pushAdd->setEnabled(false);
         ui->editFullname->setText("");
+        ui->editFullname->setFocus();
         ui->editId->setText("");
     }
     else
     {
         ui->pushAdd->setEnabled(false);
         ui->editFullname->setText("");
+        ui->editFullname->setFocus();
         ui->editId->setText("");
         close();
     }

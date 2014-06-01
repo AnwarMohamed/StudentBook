@@ -2,7 +2,7 @@
 #include <string.h>
 #include <cctype>
 
-void remove_comma(char* str, int i, int len)
+void RemoveComma(char* str, int i, int len)
 {
     for (i=0; i<len; i++) {
         if (str[i]==',') {
@@ -11,19 +11,7 @@ void remove_comma(char* str, int i, int len)
     }
 }
 
-int sub_string(char* s1, char* s2) {
-    int len1 = strlen(s1),
-    len2 = strlen(s2), i, j;
-    if (len2 > len1) return 0;
-
-    for (i=0; i<len1; i++)
-        for (j=0; j<len2; j++)
-            if (tolower(s1[i+j]) == tolower(s2[j]) && j+1==len2)
-                return 1;
-    return 0;
-}
-
-void trim(char *str)
+void Trim(char *str)
 {
     size_t len = 0;
     char *start = str - 1;
@@ -49,26 +37,56 @@ void trim(char *str)
     }
 }
 
-int is_numeric(char* str)
-{
-    int i, len = strlen(str);
-    if ( len > 0 )
-    {
-        for(i = 0; i < len; i++)
-            if (!isdigit(str[i]))
-                return 0;
-    }
-    return 1;
-}
-
-void f_capital(char* str)
+void Capitalize(char* str)
 {
     int i, len = strlen(str);
     if ( len > 0 )
     {
         str[0] = toupper(str[0]);
         for(i = 1; i < len; i++)
-            str[i] = tolower(str[i]);
+        {
+            if (str[i] == ' ' && i + 1 != len)
+            {
+                str[i+1] = toupper(str[i+1]);
+                i++;
+            }
+            else
+                str[i] = tolower(str[i]);
+        }
     }
 }
 
+void StrCopy(char*dest, char*src)
+{
+    int i;
+    for (i=0; src[i] != '\0'; i++)
+        dest[i] = src[i];
+    dest[i] = '\0';
+}
+
+char* RemoveExtraSpaces(char* line)
+{
+    int i, len = strlen(line);
+    for (i=0; i<len; i++)
+    {
+        if (line[i] == ' ')
+        {
+            if (i+1 == len)
+                line[i] = '\0';
+            else if (i+1 != len && line[i+1] == ' ')
+            {
+                StrCopy(&line[i], &line[i+1]);
+                i--;
+                len--;
+            }
+        }
+    }
+
+    if (len > 0 && line[0] == ' ')
+        StrCopy(&line[0], &line[1]);
+
+    if (len > 0 && line[len -1] == ' ')
+        line[len -1] = '\0';
+
+    return line;
+}

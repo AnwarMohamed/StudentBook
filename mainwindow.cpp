@@ -163,8 +163,8 @@ void MainWindow::resetMenu(const QString & str)
 {
     if (str.size() == 0)
         tableModel->SetMode(sortMode | orderMode);
-    //else
-    //    searchMenu();
+    else
+        searchMenu();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *k)

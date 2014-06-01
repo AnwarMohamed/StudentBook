@@ -96,10 +96,18 @@ void StudentTree::DeleteTree(TREE_NODE** root, bool nodes, bool data)
 TREE_NODE** StudentTree::Search(unsigned int id, bool reflect)
 {
     pTempNode = Search(&(bstId->root), id);
-    if (pTempNode && reflect)
+    if (pTempNode)
     {
-        viewList->Free();
-        viewList->InsertLast(*pTempNode);
+        if (reflect)
+        {
+            viewList->Free();
+            viewList->InsertLast(*pTempNode);
+        }
+    }
+    else
+    {
+        if (reflect)
+            viewList->Free();
     }
 
     return pTempNode;
@@ -108,10 +116,18 @@ TREE_NODE** StudentTree::Search(unsigned int id, bool reflect)
 TREE_NODE** StudentTree::Search(char* fullname, bool reflect)
 {
     pTempNode = Search(&(bstName->root), fullname);
-    if (pTempNode && reflect)
+    if (pTempNode)
     {
-        viewList->Free();
-        viewList->InsertLast(*pTempNode);
+        if (reflect)
+        {
+            viewList->Free();
+            viewList->InsertLast(*pTempNode);
+        }
+        else
+        {
+            if (reflect)
+                viewList->Free();
+        }
     }
 
     return pTempNode;
@@ -137,7 +153,7 @@ TREE_NODE** StudentTree::Search(TREE_NODE **root, char* fullname)
     if(!root || !*root)
         return 0;
 
-    else if(strcmp((*root)->data->fullname, fullname) == 0)
+    else if(strcasecmp((*root)->data->fullname, fullname) == 0)
         return root;
 
     else if (strcmp((*root)->data->fullname,fullname) < 0)
@@ -312,14 +328,20 @@ bool StudentTree::Set(unsigned int index, char* fullname)
 bool StudentTree::ValidFullname(char* fullname, unsigned int* len)
 {
     tempUint = strlen(fullname);
-    remove_comma(fullname, 0, tempUint);
-    trim(fullname);
-    f_capital(fullname);
+    RemoveComma(fullname, 0, tempUint);
+    RemoveExtraSpaces(fullname);
+    Trim(fullname);
+    Capitalize(fullname);
     tempUint = strlen(fullname);
 
-    for(int i=0; i<tempUint; i++)
-        if (isdigit(*(fullname + i)))
+    for(unsigned int i=0; i<tempUint; i++)
+        if (isdigit(*(fullname + i)) || !isalpha(*(fullname + i)))
+        {
+            if (*(fullname + i) == ' ')
+                continue;
+            else
                 return false;
+        }
 
     return tempUint?(len?(*len = tempUint):true):false;
 }
@@ -347,6 +369,8 @@ void StudentTree::Delete(unsigned int index)
 
 void StudentTree::SearchSub(char* fullname)
 {
+    SetMode(treeMode);
+
     tempLList->Free();
     viewList->IteratorReset();
 

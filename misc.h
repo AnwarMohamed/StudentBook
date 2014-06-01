@@ -1,10 +1,9 @@
 #ifndef MISC_H
 #define MISC_H
 
-void    remove_comma(char* str, int i, int len);
-int     sub_string(char* s1, char* s2);
-void    trim(char *str);
-void    f_capital(char* str);
-int     is_numeric(char* str);
+void    RemoveComma(char* str, int i, int len);
+char*   RemoveExtraSpaces(char* line);
+void    Trim(char *str);
+void    Capitalize(char* str);
 
 #endif // MISC_H
